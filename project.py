@@ -54,7 +54,7 @@ def registry_user():
                 confirm_password_registry_user_entry.delete(0, tk.END)
             else:
                 show_error(
-                    'Contraseña', 'La contraseña debe contener 1 mayuscula, 1 numero1 minuscula, 1 caracter especial y minimo de 10 caracteres')
+                    'Contraseña', 'La contraseña debe contener 1 mayuscula, 1 numero, 1 minuscula, 1 caracter especial y minimo de 10 caracteres')
         else:
             show_error('Contraseña', 'Las contraseñas no coinciden.')
     else:
@@ -224,11 +224,40 @@ init_sesion_screen.geometry(__window_size)
 
 # MENU SCREEN
 menu_screen = tk.Tk()
-menu_screen.title("Menu")
+menu_screen.geometry("200x300")
+menu_screen.title("Mi Restaurante")
+
+etiqueta = tk.Label(menu_screen, text="Mi Restaurante",
+                 font=("Arial", 18), pady=10)
+etiqueta.pack(side=tk.TOP, pady=10)
+
+
+campo_menu_screen = tk.Frame(menu_screen, background="red")
+campo_menu_screen.pack(pady=20)
+
+# Configurar el campo1 para que se expanda correctamente
+campo_menu_screen.columnconfigure(0, weight=1)
+campo_menu_screen.rowconfigure(0, weight=1)
+
+# Etiqueta de bienvenida
+etiqueta_bienvenida = tk.Label(
+    campo_menu_screen, text="Bienvenido", background="red")
+etiqueta_bienvenida.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+# # Botones
+boton_gestion_platos = tk.Button(campo_menu_screen, text="Gestión platos")
+boton_gestion_platos.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+
+boton_gestion_mesas = tk.Button(campo_menu_screen, text="Gestión mesas")
+boton_gestion_mesas.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+
+boton_gestion_pedidos = tk.Button(campo_menu_screen, text="Gestión pedidos")
+boton_gestion_pedidos.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
+
+boton_cerrar_sesion = tk.Button(campo_menu_screen, text="Cerrar sesión")
+boton_cerrar_sesion.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+
 menu_screen.withdraw()
-
-menu_screen.geometry(__window_size)
-
 
 home_scren.mainloop()
 registry_user_screen.mainloop()
