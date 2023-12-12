@@ -19,6 +19,18 @@ def registry_screen():
     close_and_open_screen(home_scren, registry_user_screen)
 
 
+def login_screen():
+    close_and_open_screen(home_scren, init_sesion_screen)
+
+
+def cancel_registry_user():
+    close_and_open_screen(registry_user_screen, home_scren)
+
+
+def cancel_login():
+    close_and_open_screen(init_sesion_screen, home_scren)
+
+
 def registry_user():
     email = email_registry_user_entry.get()
     password = password_registry_user_entry.get()
@@ -29,8 +41,9 @@ def registry_user():
             pat = re.compile(regex_password)
             mat = re.search(pat, password)
             if mat:
+                password = hashlib.sha256(password.encode())
                 users = [email + separator,
-                         hashlib.sha256(password.encode()) + separator]
+                         password.hexdigest() + separator]
                 users_file = open("users.txt", "w")
                 users_file.writelines(users)
                 users_file.close()
@@ -49,6 +62,26 @@ def registry_user():
                    'El correo ingresado no tiene la estructura correcta.')
 
 
+def login():
+    email = email_login_entry.get()
+    password = hashlib.sha256(password_login_entry.get().encode())
+    users_file = open("users.txt", "r")
+    data = users_file.readlines()
+    users = []
+    print(data)
+    for i in data:
+        users.append(i.replace('\n', ''))
+    print(users)
+    try:
+        index = users.index(email)
+        if users[index] == email and users[index+1] == password.hexdigest():
+            close_and_open_screen(init_sesion_screen, menu_screen)
+        else:
+            show_error('Usuario incorrecto', 'Usuario y/o correo invalidos')
+    except:
+        show_error('Usuario incorrecto', 'Usuario y/o correo invalidos')
+
+
 def show_error(title_error, text_error):
     messagebox.showerror(title_error, text_error)
 
@@ -58,6 +91,8 @@ def show_successful(title, text):
 
 
 def read_file():
+    email = email_registry_user_entry.get()
+    password = password_registry_user_entry.get()
     users_file = open("users.txt", "r")
     data = users_file.readlines()
     print('data', data)
@@ -87,7 +122,8 @@ registry_button = tk.Button(
     home_scren, text="Registrarse", command=registry_screen)
 registry_button.pack()
 
-init_sesion_button = tk.Button(home_scren, text="Iniciar sesión")
+init_sesion_button = tk.Button(
+    home_scren, text="Iniciar sesión", command=login_screen)
 init_sesion_button.pack()
 
 
@@ -136,7 +172,7 @@ registry_user_button = tk.Button(
 registry_user_button.pack()
 
 cancel_registry_user_button = tk.Button(
-    registry_user_screen, text="Cancelar", command=registry_user)
+    registry_user_screen, text="Cancelar", command=cancel_registry_user)
 cancel_registry_user_button.pack()
 
 # PLACES
@@ -146,11 +182,43 @@ cancel_registry_user_button.place(x=250, y=280)
 registry_user_screen.geometry(__window_size)
 
 
-# MENU SCREEN
+# LOGIN SCREEN
 init_sesion_screen = tk.Tk()
 init_sesion_screen.title("Iniciar sesion")
 init_sesion_screen.withdraw()
 
+
+# LABELS AND ENTRY
+sub_title_login = tk.Label(
+    init_sesion_screen, text="Inicio sesion", font=("Arial", 10), pady=10)
+sub_title_login.pack()
+
+email_login = tk.Label(
+    init_sesion_screen, text="Email", font=("Arial", 10), pady=10)
+email_login.pack()
+email_login_entry = tk.Entry(init_sesion_screen)
+email_login_entry.pack()
+
+password_login = tk.Label(
+    init_sesion_screen, text="Contraseña", font=("Arial", 10), pady=10)
+password_login.pack()
+password_login_entry = tk.Entry(init_sesion_screen, show="*")
+password_login_entry.pack()
+
+
+# BUTTON
+login_button = tk.Button(
+    init_sesion_screen, text="INICIAR SESION", command=login)
+login_button.pack()
+
+cancel_login_button = tk.Button(
+    init_sesion_screen, text="Cancelar", command=cancel_login)
+cancel_login_button.pack()
+
+
+# PLACES
+login_button.place(x=120, y=280)
+cancel_login_button.place(x=250, y=280)
 
 init_sesion_screen.geometry(__window_size)
 
