@@ -290,21 +290,32 @@ etiqueta.pack()
 frame = tk.Frame(menu_screen)
 frame.pack()
 
-user_info_frame = tk.LabelFrame(frame, text="Bienvenido")
-user_info_frame.grid(row=0, column=0, padx=150, pady=10)
+user_info_frame = tk.LabelFrame(frame, text="Bienvenido",
+                    font=("Arial", 14), pady=10)
+user_info_frame.grid(row=0, column=0, padx=10, pady=10)
 
-boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos",command=gestion_platos_screen)
+boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos",command=gestion_platos_screen,
+                    font=("Arial", 12), pady=10)
+
 boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
 
-boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas")
+boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
+                    font=("Arial", 12), pady=10)
+
 boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
-boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos")
+boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
+                    font=("Arial", 12), pady=10)
+
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
 
-boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión")
+boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión",
+                    font=("Arial", 12), pady=10)
+
 boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 menu_screen.withdraw()
+
+menu_screen.geometry(__window_size)
 
 # _______________________________________________________________________________________________________________#
 
@@ -319,24 +330,36 @@ etiqueta.pack()
 frame = tk.Frame(gestion_platos)
 frame.pack()
 
-user_info_frame = tk.LabelFrame(frame, text="Gestion de platos")
-user_info_frame.grid(row=0, column=0, padx=150, pady=10)
+user_info_frame = tk.LabelFrame(frame, text="Gestion de platos",
+                                font=("Arial", 14), pady=20)
+
+user_info_frame.grid(row=0, column=0, padx=10, pady=10)
 
 # Botones
-boton_gestion_platos = tk.Button(user_info_frame, text="Agregar", command=agregar_platos_screen)
+boton_gestion_platos = tk.Button(user_info_frame, text="Agregar", command=agregar_platos_screen,
+                                 font=("Arial", 10), pady=10)
+
 boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
 
-boton_gestion_mesas = tk.Button(user_info_frame, text="Eliminar")
+boton_gestion_mesas = tk.Button(user_info_frame, text="Eliminar",
+                                font=("Arial", 10), pady=10)
+
 boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
-boton_gestion_pedidos = tk.Button(user_info_frame, text="Actualizar")
+boton_gestion_pedidos = tk.Button(user_info_frame, text="Actualizar",
+                                  font=("Arial", 10), pady=10)
+
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
+
+
 gestion_platos.withdraw()
+gestion_platos.geometry(__window_size)
 
 # _______________________________________________________________________________________________________________#
+#Agregar platos
 
 agregar_platos = tk.Tk()
-agregar_platos.title("Agregar Platos")
+agregar_platos.title("Data Entry Form")
 
 etiqueta = tk.Label(agregar_platos, text="Mi Restaurante",
                     font=("Arial", 18), pady=10)
@@ -344,18 +367,21 @@ etiqueta.pack()
 frame = tk.Frame(agregar_platos)
 frame.pack()
 
+agregar_platos_frame = tk.LabelFrame(frame, text="Agregar platos",
+                                 font=("Arial", 14), pady=10)
 
-agregar_platos_frame = tk.LabelFrame(frame, text="Agregar platos")
-agregar_platos_frame.grid(row=0, column=0, padx=150, pady=10)
+agregar_platos_frame.grid(row=0, column=0, padx=100, pady=10)
 
 espacio_label = tk.Label(agregar_platos_frame, text="")
 espacio_label.grid(row=0, column=0)
 espacio_label = tk.Label(agregar_platos_frame, text="")
 espacio_label.grid(row=0, column=1)
 
-name_label = tk.Label(agregar_platos_frame, text="Nombre")
+name_label = tk.Label(agregar_platos_frame, text="Nombre",
+                                 font=("Arial", 12), pady=10)
 name_label.grid(row=1, column=0)
-precio_label = tk.Label(agregar_platos_frame, text="Precio")
+precio_label = tk.Label(agregar_platos_frame, text="Precio",
+                                 font=("Arial", 12), pady=10)
 precio_label.grid(row=1, column=2)
 
 name__entry = tk.Entry(agregar_platos_frame)
@@ -368,10 +394,13 @@ espacio_label.grid(row=3, column=0)
 espacio_label = tk.Label(agregar_platos_frame, text="")
 espacio_label.grid(row=3, column=1)
 
+descripcion_label = tk.Label(agregar_platos_frame, text="Descripción",
+                                 font=("Arial", 12), pady=10)
 
-descripcion_label = tk.Label(agregar_platos_frame, text="Descripción")
 descripcion_label.grid(row=4, column=0)
-disponibilidad_label = tk.Label(agregar_platos_frame, text="Disponibilidad")
+disponibilidad_label = tk.Label(agregar_platos_frame, text="Disponibilidad",
+                                 font=("Arial", 12), pady=10)
+
 disponibilidad_label.grid(row=4, column=2)
 
 descripcion_entry = tk.Entry(agregar_platos_frame)
@@ -379,13 +408,15 @@ disponibilidad_entry = tk.Entry(agregar_platos_frame)
 descripcion_entry.grid(row=5, column=0)
 disponibilidad_entry.grid(row=5, column=2)
 
-# # Botones
-boton_agregar_platos = tk.Button(frame ,text="Agregar", command=agregar_plato)
-boton_agregar_platos.grid(row=4, column=0, sticky="news", padx=30, pady=10)
+boton_agregar_platos = tk.Button(frame ,text="Agregar", command=agregar_plato,
+                                 font=("Arial", 12), pady=10)
+
+boton_agregar_platos.grid(row=6, column=0, sticky="news", padx=30, pady=10)
 
 boton_imprimir = tk.Button(frame, text="Imprimir", command=imprimir_matriz)
 boton_imprimir.grid(row=7, column=0, sticky="news", padx=30, pady=10)
 
+agregar_platos.geometry(__window_size)
 agregar_platos.withdraw()
 
 
