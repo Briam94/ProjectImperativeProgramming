@@ -7,13 +7,67 @@ regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
 __window_size = "450x400+400+200"
 
-# open and close screen/window
+matriz_gestion_platos = []
 
+
+#_____________________________________________________________________________________#
+
+#Funciones de gestion de platos
+
+def imprimir_matriz():
+    for plato in matriz_gestion_platos:
+        print(plato)
+
+def agregar_plato():
+    nombre = name__entry.get()
+    precio = precio_entry.get()
+    descripcion = descripcion_entry.get()
+    disponibilidad = disponibilidad_entry.get()
+    
+    # Validación del campo nombre
+    if not nombre:
+        messagebox.showerror("Error", "El campo nombre es obligatorio")
+        return
+    
+    # Validación del campo precio
+    if not precio.isdigit() or int(precio) <= 0:
+        messagebox.showerror("Error", "El campo precio debe ser un número mayor a 0")
+        return
+    
+    # Validación del campo descripción
+    if len(descripcion) > 100:
+        messagebox.showerror("Error", "El campo descripción no puede tener más de 100 caracteres")
+        return
+    
+    # Validación del campo disponibilidad
+    if disponibilidad.lower() not in ["si", "no"]:
+        messagebox.showerror("Error", "El campo disponibilidad solo puede ser 'si' o 'no'")
+        return
+    
+    plato = [nombre, precio, descripcion, disponibilidad]
+    matriz_gestion_platos.append(plato)
+    
+    messagebox.showinfo("Información", "Plato agregado correctamente")
+    
+    # Limpiar los campos de texto
+    name__entry.delete(0, tk.END)
+    precio_entry.delete(0, tk.END)
+    descripcion_entry.delete(0, tk.END)
+    disponibilidad_entry.delete(0, tk.END)
+
+#_____________________________________________________________________________________#
+
+# open and close screen/window
 
 def close_and_open_screen(window_to_close, window_to_open):
     window_to_close.withdraw()
     window_to_open.deiconify()
 
+def agregar_platos_screen():
+    close_and_open_screen(gestion_platos, agregar_platos)
+
+def gestion_platos_screen():
+    close_and_open_screen(menu_screen, gestion_platos)
 
 def registry_screen():
     close_and_open_screen(home_scren, registry_user_screen)
@@ -205,6 +259,7 @@ password_login.pack()
 password_login_entry = tk.Entry(init_sesion_screen, show="*")
 password_login_entry.pack()
 
+# _______________________________________________________________________________________________________________#
 
 # BUTTON
 login_button = tk.Button(
@@ -215,6 +270,7 @@ cancel_login_button = tk.Button(
     init_sesion_screen, text="Cancelar", command=cancel_login)
 cancel_login_button.pack()
 
+# _______________________________________________________________________________________________________________#
 
 # PLACES
 login_button.place(x=120, y=280)
@@ -222,44 +278,121 @@ cancel_login_button.place(x=250, y=280)
 
 init_sesion_screen.geometry(__window_size)
 
+# _______________________________________________________________________________________________________________#
+
 # MENU SCREEN
 menu_screen = tk.Tk()
-menu_screen.geometry("200x300")
-menu_screen.title("Mi Restaurante")
+menu_screen.title("Data Entry Form")
 
 etiqueta = tk.Label(menu_screen, text="Mi Restaurante",
-                 font=("Arial", 18), pady=10)
-etiqueta.pack(side=tk.TOP, pady=10)
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+frame = tk.Frame(menu_screen)
+frame.pack()
 
+user_info_frame = tk.LabelFrame(frame, text="Bienvenido")
+user_info_frame.grid(row=0, column=0, padx=150, pady=10)
 
-campo_menu_screen = tk.Frame(menu_screen, background="red")
-campo_menu_screen.pack(pady=20)
+boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos",command=gestion_platos_screen)
+boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
 
-# Configurar el campo1 para que se expanda correctamente
-campo_menu_screen.columnconfigure(0, weight=1)
-campo_menu_screen.rowconfigure(0, weight=1)
+boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas")
+boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
-# Etiqueta de bienvenida
-etiqueta_bienvenida = tk.Label(
-    campo_menu_screen, text="Bienvenido", background="red")
-etiqueta_bienvenida.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos")
+boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
 
-# # Botones
-boton_gestion_platos = tk.Button(campo_menu_screen, text="Gestión platos")
-boton_gestion_platos.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
-
-boton_gestion_mesas = tk.Button(campo_menu_screen, text="Gestión mesas")
-boton_gestion_mesas.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
-
-boton_gestion_pedidos = tk.Button(campo_menu_screen, text="Gestión pedidos")
-boton_gestion_pedidos.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
-
-boton_cerrar_sesion = tk.Button(campo_menu_screen, text="Cerrar sesión")
-boton_cerrar_sesion.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
-
+boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión")
+boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 menu_screen.withdraw()
 
+# _______________________________________________________________________________________________________________#
+
+# Gestion platos
+
+gestion_platos = tk.Tk()
+gestion_platos.title("Gestion platos")
+
+etiqueta = tk.Label(gestion_platos, text="Mi Restaurante",
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+frame = tk.Frame(gestion_platos)
+frame.pack()
+
+user_info_frame = tk.LabelFrame(frame, text="Gestion de platos")
+user_info_frame.grid(row=0, column=0, padx=150, pady=10)
+
+# Botones
+boton_gestion_platos = tk.Button(user_info_frame, text="Agregar", command=agregar_platos_screen)
+boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
+
+boton_gestion_mesas = tk.Button(user_info_frame, text="Eliminar")
+boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
+
+boton_gestion_pedidos = tk.Button(user_info_frame, text="Actualizar")
+boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
+gestion_platos.withdraw()
+
+# _______________________________________________________________________________________________________________#
+
+agregar_platos = tk.Tk()
+agregar_platos.title("Agregar Platos")
+
+etiqueta = tk.Label(agregar_platos, text="Mi Restaurante",
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+frame = tk.Frame(agregar_platos)
+frame.pack()
+
+
+agregar_platos_frame = tk.LabelFrame(frame, text="Agregar platos")
+agregar_platos_frame.grid(row=0, column=0, padx=150, pady=10)
+
+espacio_label = tk.Label(agregar_platos_frame, text="")
+espacio_label.grid(row=0, column=0)
+espacio_label = tk.Label(agregar_platos_frame, text="")
+espacio_label.grid(row=0, column=1)
+
+name_label = tk.Label(agregar_platos_frame, text="Nombre")
+name_label.grid(row=1, column=0)
+precio_label = tk.Label(agregar_platos_frame, text="Precio")
+precio_label.grid(row=1, column=2)
+
+name__entry = tk.Entry(agregar_platos_frame)
+precio_entry = tk.Entry(agregar_platos_frame)
+name__entry.grid(row=2, column=0)
+precio_entry.grid(row=2, column=2)
+
+espacio_label = tk.Label(agregar_platos_frame, text="")
+espacio_label.grid(row=3, column=0)
+espacio_label = tk.Label(agregar_platos_frame, text="")
+espacio_label.grid(row=3, column=1)
+
+
+descripcion_label = tk.Label(agregar_platos_frame, text="Descripción")
+descripcion_label.grid(row=4, column=0)
+disponibilidad_label = tk.Label(agregar_platos_frame, text="Disponibilidad")
+disponibilidad_label.grid(row=4, column=2)
+
+descripcion_entry = tk.Entry(agregar_platos_frame)
+disponibilidad_entry = tk.Entry(agregar_platos_frame)
+descripcion_entry.grid(row=5, column=0)
+disponibilidad_entry.grid(row=5, column=2)
+
+# # Botones
+boton_agregar_platos = tk.Button(frame ,text="Agregar", command=agregar_plato)
+boton_agregar_platos.grid(row=4, column=0, sticky="news", padx=30, pady=10)
+
+boton_imprimir = tk.Button(frame, text="Imprimir", command=imprimir_matriz)
+boton_imprimir.grid(row=7, column=0, sticky="news", padx=30, pady=10)
+
+agregar_platos.withdraw()
+
+
+# _______________________________________________________________________________________________________________#
 home_scren.mainloop()
 registry_user_screen.mainloop()
 menu_screen.mainloop()
 init_sesion_screen.mainloop()
+gestion_platos.mainloop()
+agregar_platos_frame.mainloop()
