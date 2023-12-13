@@ -1,50 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import tkinter as tk
+import tkinter as tk
+from tkinter import ttk
 
 
 __window_size = "450x400+400+200"
 
 #________________________________________________________________________________________________#
 
-# # MENU SCREEN
-# menu_screen = tk.Tk()
-# menu_screen.title("Data Entry Form")
-
-# etiqueta = tk.Label(menu_screen, text="Mi Restaurante",
-#                     font=("Arial", 18), pady=10)
-# etiqueta.pack()
-# frame = tk.Frame(menu_screen)
-# frame.pack()
-
-# user_info_frame = tk.LabelFrame(frame, text="Bienvenido",
-#                     font=("Arial", 14), pady=10)
-# user_info_frame.grid(row=0, column=0, padx=10, pady=10)
-
-# boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos",#,command=gestion_platos_screen,
-#                     font=("Arial", 12), pady=10)
-
-# boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
-
-# boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
-#                     font=("Arial", 12), pady=10)
-
-# boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
-
-# boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
-#                     font=("Arial", 12), pady=10)
-
-# boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
-
-# boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión",
-#                     font=("Arial", 12), pady=10)
-
-# boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
-# #menu_screen.withdraw()
-
-# menu_screen.geometry(__window_size)
-# menu_screen.mainloop()
-#________________________________________________________________________________________________#
 #Agregar platos
 
 # matriz = []
@@ -152,7 +117,57 @@ __window_size = "450x400+400+200"
 
 # agregar_platos_frame.mainloop()
 
-#________________________________________________________________________________________________#'
+#________________________________________________________________________________________________#
+
+matriz = []
+# Importar la biblioteca tkinter
+# Crear la ventana principal
+
+
+
+
+
+
+
+agregar_platos = tk.Tk()
+agregar_platos.title("Data Entry Form")
+
+etiqueta = tk.Label(agregar_platos, text="Mi Restaurante",
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+frame = tk.Frame(agregar_platos)
+frame.pack()
+
+agregar_platos_frame = tk.LabelFrame(frame, text="Agregar platos",
+                                 font=("Arial", 14),padx=50, pady=50)
+
+agregar_platos_frame.grid(row=0, column=0, padx=100, pady=10)
+
+# Crear la tabla
+tabla = ttk.Treeview(agregar_platos_frame, columns=("Nombre", "Precio", "Descripción", "Disponibilidad"), show="headings")
+tabla.heading("Nombre", text="Nombre")
+tabla.heading("Precio", text="Precio")
+tabla.heading("Descripción", text="Descripción")
+tabla.heading("Disponibilidad", text="Disponibilidad")
+tabla.pack()
+
+# Llenar la tabla con los datos de la matriz
+for fila in matriz:
+    tabla.insert("", "end", values=fila)
+
+boton_agregar_platos = tk.Button(frame ,text="Eliminar",background="red",
+                                 font=("Arial", 12), pady=0)
+
+boton_agregar_platos.grid(row=6, column=0, sticky="news", padx=10, pady=10)
+
+boton_imprimir = tk.Button(frame, text="Actualizar",background="Blue",
+                                 font=("Arial", 12), pady=0)
+boton_imprimir.grid(row=7, column=0, sticky="news", padx=10, pady=10)
+
+
+agregar_platos_frame.mainloop()
+
+#________________________________________________________________________________________________#
 
 # # GESTION DE PLATOS
 # gestion_platos = tk.Tk()
@@ -190,4 +205,44 @@ __window_size = "450x400+400+200"
 # gestion_platos.geometry(__window_size)
 # gestion_platos.mainloop()
 
+#________________________________________________________________________________________________#
+
+
+# # MENU SCREEN
+# menu_screen = tk.Tk()
+# menu_screen.title("Data Entry Form")
+
+# etiqueta = tk.Label(menu_screen, text="Mi Restaurante",
+#                     font=("Arial", 18), pady=10)
+# etiqueta.pack()
+# frame = tk.Frame(menu_screen)
+# frame.pack()
+
+# user_info_frame = tk.LabelFrame(frame, text="Bienvenido",
+#                     font=("Arial", 14), pady=10)
+# user_info_frame.grid(row=0, column=0, padx=10, pady=10)
+
+# boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos",#,command=gestion_platos_screen,
+#                     font=("Arial", 12), pady=10)
+
+# boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
+
+# boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
+#                     font=("Arial", 12), pady=10)
+
+# boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
+
+# boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
+#                     font=("Arial", 12), pady=10)
+
+# boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
+
+# boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión",
+#                     font=("Arial", 12), pady=10)
+
+# boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
+# #menu_screen.withdraw()
+
+# menu_screen.geometry(__window_size)
+# menu_screen.mainloop()
 #________________________________________________________________________________________________#
