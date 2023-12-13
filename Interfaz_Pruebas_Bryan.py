@@ -119,15 +119,10 @@ __window_size = "450x400+400+200"
 
 #________________________________________________________________________________________________#
 
-matriz = []
+matriz = [['caldo', '5000', 'es un caldo', 'si'], ['arroz', '1300', 'es un arroz', 'no']]
+
 # Importar la biblioteca tkinter
 # Crear la ventana principal
-
-
-
-
-
-
 
 agregar_platos = tk.Tk()
 agregar_platos.title("Data Entry Form")
@@ -135,6 +130,12 @@ agregar_platos.title("Data Entry Form")
 etiqueta = tk.Label(agregar_platos, text="Mi Restaurante",
                     font=("Arial", 18), pady=10)
 etiqueta.pack()
+
+image = tk.PhotoImage(file="logo.png")
+
+lab = ttk.Label(image=image)
+lab.pack()
+
 frame = tk.Frame(agregar_platos)
 frame.pack()
 
@@ -160,7 +161,7 @@ boton_agregar_platos = tk.Button(frame ,text="Eliminar",background="red",
 
 boton_agregar_platos.grid(row=6, column=0, sticky="news", padx=10, pady=10)
 
-boton_imprimir = tk.Button(frame, text="Actualizar",background="Blue",
+boton_imprimir = tk.Button(frame, text="Cancelar",background="Blue",
                                  font=("Arial", 12), pady=0)
 boton_imprimir.grid(row=7, column=0, sticky="news", padx=10, pady=10)
 

@@ -80,6 +80,8 @@ def login_screen():
 def cancel_registry_user():
     close_and_open_screen(registry_user_screen, home_scren)
 
+def cancel_gestion_platos():
+    close_and_open_screen(gestion_platos, menu_screen)
 
 def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
@@ -350,6 +352,11 @@ boton_gestion_pedidos = tk.Button(user_info_frame, text="Actualizar",
                                   font=("Arial", 10), pady=10)
 
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
+
+boton_gestion_pedidos = tk.Button(user_info_frame, text="Cancelar",command=cancel_gestion_platos,
+                                  font=("Arial", 10), pady=10)
+
+boton_gestion_pedidos.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 
 
 gestion_platos.withdraw()
