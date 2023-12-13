@@ -2,15 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import tkinter as tk
-import tkinter as tk
-from tkinter import ttk
 
 
 __window_size = "450x400+400+200"
 
-#________________________________________________________________________________________________#
+# ________________________________________________________________________________________________#
 
-#Agregar platos
+# Agregar platos
 
 # matriz = []
 # def imprimir_matriz():
@@ -117,12 +115,12 @@ __window_size = "450x400+400+200"
 
 # agregar_platos_frame.mainloop()
 
-#________________________________________________________________________________________________#
+# ________________________________________________________________________________________________#
 
 matriz = [['caldo', '5000', 'es un caldo', 'si'], ['arroz', '1300', 'es un arroz', 'no']]
 
-# Importar la biblioteca tkinter
-# Crear la ventana principal
+# Crear el botón de eliminar
+
 
 agregar_platos = tk.Tk()
 agregar_platos.title("Data Entry Form")
@@ -145,16 +143,22 @@ agregar_platos_frame = tk.LabelFrame(frame, text="Agregar platos",
 agregar_platos_frame.grid(row=0, column=0, padx=100, pady=10)
 
 # Crear la tabla
-tabla = ttk.Treeview(agregar_platos_frame, columns=("Nombre", "Precio", "Descripción", "Disponibilidad"), show="headings")
+tabla = ttk.Treeview(agregar_platos_frame, columns=("Nombre", "Precio", "Descripción", "Disponibilidad","Seleccion"), show="headings")
 tabla.heading("Nombre", text="Nombre")
 tabla.heading("Precio", text="Precio")
 tabla.heading("Descripción", text="Descripción")
 tabla.heading("Disponibilidad", text="Disponibilidad")
+tabla.heading("Seleccion", text="Seleccion")
 tabla.pack()
 
 # Llenar la tabla con los datos de la matriz
 for fila in matriz:
     tabla.insert("", "end", values=fila)
+
+
+
+# Llenar la tabla con los datos de la matriz
+
 
 boton_agregar_platos = tk.Button(frame ,text="Eliminar",background="red",
                                  font=("Arial", 12), pady=0)
@@ -165,10 +169,12 @@ boton_imprimir = tk.Button(frame, text="Cancelar",background="Blue",
                                  font=("Arial", 12), pady=0)
 boton_imprimir.grid(row=7, column=0, sticky="news", padx=10, pady=10)
 
+agregar_platos.mainloop()
 
-agregar_platos_frame.mainloop()
 
-#________________________________________________________________________________________________#
+
+
+# ________________________________________________________________________________________________#
 
 # # GESTION DE PLATOS
 # gestion_platos = tk.Tk()
@@ -206,7 +212,7 @@ agregar_platos_frame.mainloop()
 # gestion_platos.geometry(__window_size)
 # gestion_platos.mainloop()
 
-#________________________________________________________________________________________________#
+# ________________________________________________________________________________________________#
 
 
 # # MENU SCREEN
@@ -246,4 +252,4 @@ agregar_platos_frame.mainloop()
 
 # menu_screen.geometry(__window_size)
 # menu_screen.mainloop()
-#________________________________________________________________________________________________#
+# ________________________________________________________________________________________________#

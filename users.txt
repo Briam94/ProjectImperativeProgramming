@@ -1,4 +1,2 @@
 brian@gmail.com
 e57a29cd40df2f69fcef1dfe15a695d8216c6ea6a9f9a57fddc0fba6cd315283
-matriz = ['caldo', '5000', 'es un caldo', 'si'],
-['arroz', '1300', 'es un arroz', 'no']
