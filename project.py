@@ -3,14 +3,15 @@ import re
 from tkinter import ttk
 from tkinter import messagebox
 import hashlib
+import random
 
 regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
 __window_size = "450x400+400+200"
 
-matriz_gestion_platos = []
+matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], ['arroz', '1300', 'es un arroz', 'no']]
 lista_pedidos = []
-
+tables =  [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023', '14:00', '5'),('12', '12/10/1990','14:00','4')] 
 # ________________________________________________________________________________________________#
 # Funciones para eliminar platos
 
@@ -53,17 +54,17 @@ def cancel_login():
 
 # _____________________________________________________________________________________#
     
-
-
-
-
 def reservar_pedido():
     mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
     plato_seleccionado = treeview_platos.item(treeview_platos.focus())['text']
-
-    pedido_actual = f"Pedido reservado para Mesa {mesa_seleccionada}: {plato_seleccionado}"
+    
+    numero_pedido = random.randint(1000, 9999)  # Generar un número aleatorio de pedido
+    pedido_actual = {
+        "ID": numero_pedido,
+        "Mesa": mesa_seleccionada,
+        "Plato": plato_seleccionado
+    }
     lista_pedidos.append(pedido_actual)
-
 
 def mostrar_pedidos():
     agregar_pedidos.withdraw()
@@ -72,17 +73,26 @@ def mostrar_pedidos():
     pedidos_window.geometry(__window_size)
 
     def eliminar_pedido():
-        selected_index = listbox_pedidos.curselection()
-        if selected_index:
-            index = selected_index[0]
-            listbox_pedidos.delete(index)
+        selected_item = tree.focus()
+        if selected_item:
+            index = int(tree.item(selected_item, 'text'))
+            tree.delete(selected_item)
             del lista_pedidos[index]
 
-    listbox_pedidos = tk.Listbox(pedidos_window, width=50)
-    listbox_pedidos.pack(padx=20, pady=10)
+    tree = ttk.Treeview(pedidos_window, columns=("ID", "Mesa", "Plato"), selectmode="browse")
+    tree.heading("#0", text="Índice")
+    tree.heading("#1", text="ID")
+    tree.heading("#2", text="Mesa")
+    tree.heading("#3", text="Plato")
+    tree.column("#0", width=60)
+    tree.column("#1", width=60)
+    tree.column("#2", width=60)
+    tree.column("#3", width=120)
+    
+    for i, pedido in enumerate(lista_pedidos):
+        tree.insert("", "end", text=str(i), values=(pedido["ID"], pedido["Mesa"], pedido["Plato"]))
 
-    for pedido in lista_pedidos:
-        listbox_pedidos.insert(tk.END, pedido)
+    tree.pack(padx=20, pady=10)
 
     btn_eliminar = tk.Button(
         pedidos_window, text="Eliminar Pedido", command=eliminar_pedido)
@@ -662,23 +672,31 @@ treeview_platos = ttk.Treeview(frame_platos)
 treeview_platos.pack()
 
 # Insertar mesas ficticias en el treeview de mesas
-for i in range(1, 11):
-    treeview_mesas.insert('', 'end', text=str(i), values=("Mesa " + str(i)))
+mesas_pedidos = []
+for i in range(0,len(tables)):
+    mesas_pedidos.append(tables[i][0])
 
-# Lista de platos de ejemplo
-platos_ejemplo = ["Pizza", "Hamburguesa", "Ensalada", "Pasta", "Sushi"]
-
-# Insertar platos de ejemplo en el treeview de platos
-for plato in platos_ejemplo:
+for mesa in mesas_pedidos:
+    treeview_mesas.insert('', 'end', text=mesa, values=("Mesa " + mesa))
+ 
+# Lista de platos 
+platos_pedidos = []
+for i in range(0,len(matriz_gestion_platos)):
+    platos_pedidos.append(matriz_gestion_platos[i][0])
+    
+# Insertar platos  en el treeview de platos
+for plato in platos_pedidos:
     treeview_platos.insert('', 'end', text=plato, values=(plato))
 
 # Botón para reservar un pedido
 boton_reservar = ttk.Button(agregar_pedidos_frame, text="Reservar Pedido", command=reservar_pedido)
-boton_reservar.grid(row=1, column=0, padx=10, pady=10, sticky="news")
+boton_reservar.grid(row=1, column=0, padx=10, pady=5, sticky="news")
 
 # Botón para mostrar pedidos
 boton_mostrar = ttk.Button(agregar_pedidos_frame, text="Mostrar Pedidos", command=mostrar_pedidos)
-boton_mostrar.grid(row=1, column=1, padx=10, pady=10, sticky="news")
+boton_mostrar.grid(row=1, column=1, padx=10, pady=5, sticky="news")
+btn_salir = tk.Button(agregar_pedidos_frame, text="Salir", command = lambda: (agregar_pedidos.withdraw(), menu_screen.deiconify()))
+btn_salir.grid(row=2, column=1, padx=10, pady=5, sticky="news")
 
 # Configurar el tamaño de la ventana (reemplazar __window_size con el tamaño deseado)
 agregar_pedidos.geometry(__window_size)
@@ -686,7 +704,7 @@ agregar_pedidos.geometry(__window_size)
 agregar_pedidos.withdraw()
 
 # Iniciar el bucle principal de la aplicación
-
+# Natalia0506*
 # _______________________________________________________________________________________________________________#
 home_scren.mainloop()
 registry_user_screen.mainloop()
