@@ -9,6 +9,7 @@ regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*
 __window_size = "450x400+400+200"
 
 matriz_gestion_platos = []
+lista_pedidos = []
 
 # ________________________________________________________________________________________________#
 # Funciones para eliminar platos
@@ -19,6 +20,7 @@ matriz_gestion_platos = []
 # open and close screen/window
 
 
+
 def close_and_open_screen(window_to_close, window_to_open):
     window_to_close.withdraw()
     window_to_open.deiconify()
@@ -27,6 +29,8 @@ def close_and_open_screen(window_to_close, window_to_open):
 def gestion_platos_screen():
     close_and_open_screen(menu_screen, gestion_platos)
 
+def agregar_pedidos_screen():
+    close_and_open_screen(menu_screen, agregar_pedidos)
 
 def registry_screen():
     close_and_open_screen(home_scren, registry_user_screen)
@@ -46,6 +50,49 @@ def cancel_gestion_platos():
 
 def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
+
+# _____________________________________________________________________________________#
+    
+
+
+
+
+def reservar_pedido():
+    mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
+    plato_seleccionado = treeview_platos.item(treeview_platos.focus())['text']
+
+    pedido_actual = f"Pedido reservado para Mesa {mesa_seleccionada}: {plato_seleccionado}"
+    lista_pedidos.append(pedido_actual)
+
+
+def mostrar_pedidos():
+    agregar_pedidos.withdraw()
+    pedidos_window = tk.Tk()
+    pedidos_window.title("Pedidos")
+    pedidos_window.geometry(__window_size)
+
+    def eliminar_pedido():
+        selected_index = listbox_pedidos.curselection()
+        if selected_index:
+            index = selected_index[0]
+            listbox_pedidos.delete(index)
+            del lista_pedidos[index]
+
+    listbox_pedidos = tk.Listbox(pedidos_window, width=50)
+    listbox_pedidos.pack(padx=20, pady=10)
+
+    for pedido in lista_pedidos:
+        listbox_pedidos.insert(tk.END, pedido)
+
+    btn_eliminar = tk.Button(
+        pedidos_window, text="Eliminar Pedido", command=eliminar_pedido)
+    btn_eliminar.pack(pady=5)
+
+    btn_salir = tk.Button(pedidos_window, text="Salir", command=lambda: (
+        pedidos_window.destroy(), agregar_pedidos.deiconify()))
+    btn_salir.pack(pady=5)
+
+    pedidos_window.mainloop()
 
 
 # _____________________________________________________________________________________#
@@ -494,7 +541,7 @@ boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
 boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
 boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
-                                  font=("Arial", 12), pady=10)
+                                  font=("Arial", 12), pady=10, command=agregar_pedidos_screen)
 
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
 
@@ -574,6 +621,70 @@ actualizar_tabla()
 
 gestion_platos.withdraw()
 
+
+
+# Crear la ventana principal
+agregar_pedidos = tk.Tk()
+agregar_pedidos.title("Data Entry Form")
+
+# Etiqueta para identificar el formulario
+etiqueta = tk.Label(agregar_pedidos, text="Mi Restaurante", font=("Arial", 18), pady=5)
+etiqueta.grid(row=0, column=0, columnspan=2)
+
+# Crear un marco para el formulario
+frame = tk.Frame(agregar_pedidos)
+frame.grid(row=1, column=0, columnspan=2)
+
+# Marco para agregar pedidos
+agregar_pedidos_frame = tk.LabelFrame(frame, text="Agregar Pedidos", font=("Arial", 14), pady=10)
+agregar_pedidos_frame.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
+
+# Marco para las mesas
+frame_mesas = ttk.Frame(agregar_pedidos_frame)
+frame_mesas.grid(row=0, column=0, padx=5, pady=5)
+
+label_mesas = ttk.Label(frame_mesas, text="Mesas")
+label_mesas.pack()
+
+# Treeview para mostrar las mesas
+treeview_mesas = ttk.Treeview(frame_mesas)
+treeview_mesas.pack()
+
+# Marco para los platos
+frame_platos = ttk.Frame(agregar_pedidos_frame)
+frame_platos.grid(row=0, column=1, padx=5, pady=5)
+
+label_platos = ttk.Label(frame_platos, text="Platos")
+label_platos.pack()
+
+# Treeview para mostrar los platos
+treeview_platos = ttk.Treeview(frame_platos)
+treeview_platos.pack()
+
+# Insertar mesas ficticias en el treeview de mesas
+for i in range(1, 11):
+    treeview_mesas.insert('', 'end', text=str(i), values=("Mesa " + str(i)))
+
+# Lista de platos de ejemplo
+platos_ejemplo = ["Pizza", "Hamburguesa", "Ensalada", "Pasta", "Sushi"]
+
+# Insertar platos de ejemplo en el treeview de platos
+for plato in platos_ejemplo:
+    treeview_platos.insert('', 'end', text=plato, values=(plato))
+
+# Botón para reservar un pedido
+boton_reservar = ttk.Button(agregar_pedidos_frame, text="Reservar Pedido", command=reservar_pedido)
+boton_reservar.grid(row=1, column=0, padx=10, pady=10, sticky="news")
+
+# Botón para mostrar pedidos
+boton_mostrar = ttk.Button(agregar_pedidos_frame, text="Mostrar Pedidos", command=mostrar_pedidos)
+boton_mostrar.grid(row=1, column=1, padx=10, pady=10, sticky="news")
+
+# Configurar el tamaño de la ventana (reemplazar __window_size con el tamaño deseado)
+agregar_pedidos.geometry(__window_size)
+# Ocultar la ventana por defecto
+agregar_pedidos.withdraw()
+
 # Iniciar el bucle principal de la aplicación
 
 # _______________________________________________________________________________________________________________#
@@ -583,3 +694,5 @@ menu_screen.mainloop()
 init_sesion_screen.mainloop()
 gestion_platos.mainloop()
 agregar_platos_frame.mainloop()
+boton_gestion_pedidos.mainloop()
+agregar_pedidos_frame.mainloop()
