@@ -422,7 +422,7 @@ registry_user_button.place(x=170, y=280)
 cancel_registry_user_button.place(x=250, y=280)
 
 registry_user_screen.geometry(__window_size)
-home_scren.withdraw()
+
 
 
 # LOGIN SCREEN
@@ -505,13 +505,14 @@ boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 
 
 menu_screen.geometry(__window_size)
+menu_screen.withdraw()
 
 # _______________________________________________________________________________________________________________#
 
 
 # _______________________________________________________________________________________________________________#
 
-# Crear la ventana principal eliminar platos
+# Crear la ventana principal platos
 gestion_platos = tk.Tk()
 gestion_platos.title("Tabla de Matriz")
 
