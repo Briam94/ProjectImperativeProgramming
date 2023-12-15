@@ -164,7 +164,7 @@ def update_data():
 
         # Create the text fields and show the values ​​of the selected row
 
-        label = tk.Label(update_dishes, text="Grill House",
+        label = tk.Label(update_dishes, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                          font=("Arial", 18), pady=10)
         label.pack()
         frame = tk.Frame(update_dishes)
@@ -253,7 +253,7 @@ def enter_data():
     add_dishes = tk.Tk()
     add_dishes.title("Data Entry Form")
 
-    label = tk.Label(add_dishes, text="Grill House",
+    label = tk.Label(add_dishes, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                      font=("Arial", 18), pady=10)
     label.pack()
     frame = tk.Frame(add_dishes)
@@ -399,7 +399,7 @@ def update_data_table():
         update_table = tk.Tk()
         update_table.title("update table")
 
-        tag = tk.Label(update_table, text="Grill House",
+        tag = tk.Label(update_table, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                        font=("Arial", 18), pady=10)
         tag.pack()
         frame = tk.Frame(update_table)
@@ -498,7 +498,7 @@ def regitry_table():
     regitry_table_screen = tk.Tk()
     regitry_table_screen.title("Registrar tables")
 
-    title_regitry_table_screen = tk.Label(regitry_table_screen, text="Grill House",
+    title_regitry_table_screen = tk.Label(regitry_table_screen, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                                           font=("Arial", 18), pady=10)
     title_regitry_table_screen.pack()
     frame = tk.Frame(regitry_table_screen)
@@ -717,47 +717,53 @@ registry_user_screen = tk.Tk()
 registry_user_screen.title("Registrar usuario")
 registry_user_screen.withdraw()
 
-title_user = tk.Label(registry_user_screen, text="Grill House",
+title_user = tk.Label(registry_user_screen, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                       font=("Arial", 18), pady=10)
 title_user.pack()
 
+frame = tk.Frame(registry_user_screen)
+frame.pack()
+
+
+user2_info_frame = tk.LabelFrame(frame, text="𝐂𝐇𝐄𝐂𝐊 𝐈𝐍",
+                                font=("Arial", 14), pady=10)
+user2_info_frame.grid(row=0, column=0, padx=10, pady=10)
+
+
+
+
 # LABELS AND ENTRY
-sub_title_registry_user = tk.Label(
-    registry_user_screen, text="Registrarse", font=("Arial", 10), pady=10)
-sub_title_registry_user.pack()
 
 email_registry_user = tk.Label(
-    registry_user_screen, text="Email", font=("Arial", 10), pady=10)
+    user2_info_frame, text="Email", font=("Arial", 10), pady=10)
 email_registry_user.pack()
-email_registry_user_entry = tk.Entry(registry_user_screen)
+email_registry_user_entry = tk.Entry(user2_info_frame)
 email_registry_user_entry.pack()
 
 password_registry_user = tk.Label(
-    registry_user_screen, text="Password", font=("Arial", 10), pady=10)
+    user2_info_frame, text="Password", font=("Arial", 10), pady=10)
 password_registry_user.pack()
-password_registry_user_entry = tk.Entry(registry_user_screen, show="*")
+password_registry_user_entry = tk.Entry(user2_info_frame, show="*")
 password_registry_user_entry.pack()
 
 
 confirm_password_registry_user = tk.Label(
-    registry_user_screen, text="Cofirmar Password", font=("Arial", 10), pady=10)
+    user2_info_frame, text="Confirm Password", font=("Arial", 10), pady=10)
 confirm_password_registry_user.pack()
 confirm_password_registry_user_entry = tk.Entry(
-    registry_user_screen, show="*")
+    user2_info_frame, show="*")
 confirm_password_registry_user_entry.pack()
 
 # BUTTON
 registry_user_button = tk.Button(
-    registry_user_screen, text="Registrar", command=registry_user)
+    registry_user_screen, text="Registrar",font=("Arial", 12), pady=10, command=registry_user)
 registry_user_button.pack()
 
 cancel_registry_user_button = tk.Button(
-    registry_user_screen, text="cancel", command=cancel_registry_user)
+    registry_user_screen, text="cancel",font=("Arial", 12), pady=10, command=cancel_registry_user)
 cancel_registry_user_button.pack()
 
 # PLACES
-registry_user_button.place(x=170, y=280)
-cancel_registry_user_button.place(x=250, y=280)
 
 registry_user_screen.geometry(__window_size)
 
@@ -767,33 +773,39 @@ init_sesion_screen = tk.Tk()
 init_sesion_screen.title("Log in")
 init_sesion_screen.withdraw()
 
+title_user = tk.Label(init_sesion_screen, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
+                      font=("Arial", 18), pady=10)
+title_user.pack()
+
+frame = tk.Frame(init_sesion_screen)
+frame.pack()
+
+user1_info_frame = tk.LabelFrame(frame, text="Login",
+                                font=("Arial", 14), pady=10)
+user1_info_frame.grid(row=0, column=0, padx=10, pady=10)
 
 # LABELS AND ENTRY
-sub_title_login = tk.Label(
-    init_sesion_screen, text="Login", font=("Arial", 10), pady=10)
-sub_title_login.pack()
-
-email_login = tk.Label(
-    init_sesion_screen, text="Email", font=("Arial", 10), pady=10)
+email_login = tk.Label(user1_info_frame, text="Email", font=("Arial", 10),padx=10, pady=10)
 email_login.pack()
-email_login_entry = tk.Entry(init_sesion_screen)
+email_login_entry = tk.Entry(user1_info_frame)
 email_login_entry.pack()
 
-password_login = tk.Label(
-    init_sesion_screen, text="Password", font=("Arial", 10), pady=10)
+password_login = tk.Label(user1_info_frame, text="Password", font=("Arial", 10), padx=10,pady=10)
 password_login.pack()
-password_login_entry = tk.Entry(init_sesion_screen, show="*")
+password_login_entry = tk.Entry(user1_info_frame, show="*")
 password_login_entry.pack()
 
 # _______________________________________________________________________________________________________________#
 
 # BUTTON LOGIN
 login_button = tk.Button(
-    init_sesion_screen, text="Log in", command=login)
+    init_sesion_screen, text="Log in",
+                                  font=("Arial", 12), pady=10, command=login)
 login_button.pack()
 
 cancel_login_button = tk.Button(
-    init_sesion_screen, text="cancel", command=cancel_login)
+    init_sesion_screen, text="cancel",
+                                  font=("Arial", 12), pady=10, command=cancel_login)
 cancel_login_button.pack()
 
 # _______________________________________________________________________________________________________________#
@@ -811,7 +823,7 @@ init_sesion_screen.geometry(__window_size)
 menu_screen = tk.Tk()
 menu_screen.title("Data Entry Form")
 
-label = tk.Label(menu_screen, text="Grill House",
+label = tk.Label(menu_screen, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                  font=("Arial", 18), pady=10)
 label.pack()
 frame = tk.Frame(menu_screen)
@@ -845,7 +857,7 @@ button_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 
 
 menu_screen.geometry(__window_size)
-menu_screen.withdraw()
+#menu_screen.withdraw()
 
 # _______________________________________________________________________________________________________________#
 
@@ -856,7 +868,7 @@ menu_screen.withdraw()
 dish_management = tk.Tk()
 dish_management.title("board de Matrix")
 
-label = tk.Label(dish_management, text="Grill House",
+label = tk.Label(dish_management, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                  font=("Arial", 18), pady=10)
 label.pack()
 
@@ -926,7 +938,7 @@ add_orders = tk.Tk()
 add_orders.title("Data Entry Form")
 
 # label para identificar el formulario
-label = tk.Label(add_orders, text="Grill House",
+label = tk.Label(add_orders, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                  font=("Arial", 18), pady=5)
 label.grid(row=0, column=0, columnspan=2)
 
@@ -1006,7 +1018,7 @@ add_orders.withdraw()
 table_management_screen = tk.Tk()
 table_management_screen.title("Table management")
 
-label = tk.Label(table_management_screen, text="Grill House",
+label = tk.Label(table_management_screen, text="𝑮𝑹𝑰𝑳𝑳 𝑯𝑶𝑼𝑺𝑬",
                  font=("Arial", 18), pady=10)
 label.pack()
 
