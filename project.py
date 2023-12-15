@@ -53,7 +53,7 @@ def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
 
 # _____________________________________________________________________________________#
-    
+
 def reservar_pedido():
     mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
     plato_seleccionado = treeview_platos.item(treeview_platos.focus())['text']
@@ -631,6 +631,10 @@ actualizar_tabla()
 
 gestion_platos.withdraw()
 
+# _______________________________________________________________________________________________________________#
+
+
+# _______________________________________________________________________________________________________________#
 
 
 # Crear la ventana principal
