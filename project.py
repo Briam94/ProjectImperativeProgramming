@@ -9,9 +9,11 @@ regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
 __window_size = "450x400+400+200"
 
-matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], ['arroz', '1300', 'es un arroz', 'no']]
+matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], [
+    'arroz', '1300', 'es un arroz', 'no']]
 lista_pedidos = []
-tables =  [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023', '14:00', '5'),('12', '12/10/1990','14:00','4')] 
+tables = [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023',
+                                              '14:00', '5'), ('12', '12/10/1990', '14:00', '4')]
 # ________________________________________________________________________________________________#
 # Funciones para eliminar platos
 
@@ -19,7 +21,6 @@ tables =  [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023', '14:00', '5'),
 # _____________________________________________________________________________________#
 
 # open and close screen/window
-
 
 
 def close_and_open_screen(window_to_close, window_to_open):
@@ -30,8 +31,10 @@ def close_and_open_screen(window_to_close, window_to_open):
 def gestion_platos_screen():
     close_and_open_screen(menu_screen, gestion_platos)
 
+
 def agregar_pedidos_screen():
     close_and_open_screen(menu_screen, agregar_pedidos)
+
 
 def registry_screen():
     close_and_open_screen(home_scren, registry_user_screen)
@@ -53,18 +56,21 @@ def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
 
 # _____________________________________________________________________________________#
-    
+
+
 def reservar_pedido():
     mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
     plato_seleccionado = treeview_platos.item(treeview_platos.focus())['text']
-    
-    numero_pedido = random.randint(1000, 9999)  # Generar un número aleatorio de pedido
+
+    # Generar un número aleatorio de pedido
+    numero_pedido = random.randint(1000, 9999)
     pedido_actual = {
         "ID": numero_pedido,
         "Mesa": mesa_seleccionada,
         "Plato": plato_seleccionado
     }
     lista_pedidos.append(pedido_actual)
+
 
 def mostrar_pedidos():
     agregar_pedidos.withdraw()
@@ -79,7 +85,8 @@ def mostrar_pedidos():
             tree.delete(selected_item)
             del lista_pedidos[index]
 
-    tree = ttk.Treeview(pedidos_window, columns=("ID", "Mesa", "Plato"), selectmode="browse")
+    tree = ttk.Treeview(pedidos_window, columns=(
+        "ID", "Mesa", "Plato"), selectmode="browse")
     tree.heading("#0", text="Índice")
     tree.heading("#1", text="ID")
     tree.heading("#2", text="Mesa")
@@ -88,9 +95,10 @@ def mostrar_pedidos():
     tree.column("#1", width=60)
     tree.column("#2", width=60)
     tree.column("#3", width=120)
-    
+
     for i, pedido in enumerate(lista_pedidos):
-        tree.insert("", "end", text=str(i), values=(pedido["ID"], pedido["Mesa"], pedido["Plato"]))
+        tree.insert("", "end", text=str(i), values=(
+            pedido["ID"], pedido["Mesa"], pedido["Plato"]))
 
     tree.pack(padx=20, pady=10)
 
@@ -123,7 +131,7 @@ def actualizar_datos():
         actualizar_platos.title("Data Entry Form")
 
         # Crear los campos de texto y mostrar los valores de la fila seleccionada
-        
+
         etiqueta = tk.Label(actualizar_platos, text="Mi Restaurante",
                             font=("Arial", 18), pady=10)
         etiqueta.pack()
@@ -190,21 +198,22 @@ def actualizar_datos():
         if seleccion:
             tree.item(seleccion, values=(nuevo_nombre, nuevo_precio,
                       nueva_descripcion, nueva_disponibilidad))
-            
+
             actualizar_platos.destroy()
-            
 
         # Agregar el botón de actualizar
     boton_actualizar_platos = tk.Button(frame, text="Actualizar", command=actualizar_fila,
-                                     font=("Arial", 12), pady=10)
+                                        font=("Arial", 12), pady=10)
 
-    boton_actualizar_platos.grid(row=6, column=0, sticky="news", padx=20, pady=5)
+    boton_actualizar_platos.grid(
+        row=6, column=0, sticky="news", padx=20, pady=5)
 
     boton_cancelar = tk.Button(
         frame, text="Cancelar", command=actualizar_platos.destroy, font=("Arial", 12), pady=10)
     boton_cancelar.grid(row=7, column=0, sticky="news", padx=20, pady=5)
 
     actualizar_platos.geometry(__window_size)
+
 
 def ingresar_datos():
     agregar_platos = tk.Tk()
@@ -267,20 +276,23 @@ def ingresar_datos():
         if not nombre:
             messagebox.showerror("Error", "El campo nombre es obligatorio")
             return
-        
+
         # Validación del campo precio
         if not precio.isdigit() or int(precio) <= 0:
-            messagebox.showerror("Error", "El campo precio debe ser un número mayor a 0")
+            messagebox.showerror(
+                "Error", "El campo precio debe ser un número mayor a 0")
             return
-        
+
         # Validación del campo descripción
         if len(descripcion) > 100:
-            messagebox.showerror("Error", "El campo descripción no puede tener más de 100 caracteres")
+            messagebox.showerror(
+                "Error", "El campo descripción no puede tener más de 100 caracteres")
             return
-        
+
         # Validación del campo disponibilidad
         if disponibilidad.lower() not in ["si", "no"]:
-            messagebox.showerror("Error", "El campo disponibilidad solo puede ser 'si' o 'no'")
+            messagebox.showerror(
+                "Error", "El campo disponibilidad solo puede ser 'si' o 'no'")
             return
 
         fila = [nombre, precio, descripcion, disponibilidad]
@@ -340,17 +352,30 @@ def registry_user():
             pat = re.compile(regex_password)
             mat = re.search(pat, password)
             if mat:
-                password = hashlib.sha256(password.encode())
-                users = [email + separator,
-                         password.hexdigest() + separator]
-                users_file = open("users.txt", "w")
-                users_file.writelines(users)
+                users_file = open("users.txt", "r")
+                data = users_file.readlines()
                 users_file.close()
-                show_successful(
-                    "EXITOSO", "el usuario fue guardado exitosamente")
-                email_registry_user_entry.delete(0, tk.END)
-                password_registry_user_entry.delete(0, tk.END)
-                confirm_password_registry_user_entry.delete(0, tk.END)
+                print(data)
+                try:
+                    index = data.index(email+separator)
+                except ValueError:
+                    index = -1
+                if index >= 0:
+                    show_error(
+                        'Error', 'Ya existe un usuario registrado con ' + email)
+                else:
+                    password = hashlib.sha256(password.encode())
+                    data.append(email + separator)
+                    data.append(password.hexdigest() + separator)
+                    print(data)
+                    users_file = open("users.txt", "w")
+                    users_file.writelines(data)
+                    users_file.close()
+                    show_successful(
+                        "EXITOSO", "el usuario fue guardado exitosamente")
+                    email_registry_user_entry.delete(0, tk.END)
+                    password_registry_user_entry.delete(0, tk.END)
+                    confirm_password_registry_user_entry.delete(0, tk.END)
             else:
                 show_error(
                     'Contraseña', 'La contraseña debe contener 1 mayuscula, 1 numero, 1 minuscula, 1 caracter especial y minimo de 10 caracteres')
@@ -479,7 +504,6 @@ registry_user_button.place(x=170, y=280)
 cancel_registry_user_button.place(x=250, y=280)
 
 registry_user_screen.geometry(__window_size)
-
 
 
 # LOGIN SCREEN
@@ -632,13 +656,13 @@ actualizar_tabla()
 gestion_platos.withdraw()
 
 
-
 # Crear la ventana principal
 agregar_pedidos = tk.Tk()
 agregar_pedidos.title("Data Entry Form")
 
 # Etiqueta para identificar el formulario
-etiqueta = tk.Label(agregar_pedidos, text="Mi Restaurante", font=("Arial", 18), pady=5)
+etiqueta = tk.Label(agregar_pedidos, text="Mi Restaurante",
+                    font=("Arial", 18), pady=5)
 etiqueta.grid(row=0, column=0, columnspan=2)
 
 # Crear un marco para el formulario
@@ -646,7 +670,8 @@ frame = tk.Frame(agregar_pedidos)
 frame.grid(row=1, column=0, columnspan=2)
 
 # Marco para agregar pedidos
-agregar_pedidos_frame = tk.LabelFrame(frame, text="Agregar Pedidos", font=("Arial", 14), pady=10)
+agregar_pedidos_frame = tk.LabelFrame(
+    frame, text="Agregar Pedidos", font=("Arial", 14), pady=10)
 agregar_pedidos_frame.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
 
 # Marco para las mesas
@@ -673,29 +698,32 @@ treeview_platos.pack()
 
 # Insertar mesas ficticias en el treeview de mesas
 mesas_pedidos = []
-for i in range(0,len(tables)):
+for i in range(0, len(tables)):
     mesas_pedidos.append(tables[i][0])
 
 for mesa in mesas_pedidos:
     treeview_mesas.insert('', 'end', text=mesa, values=("Mesa " + mesa))
- 
-# Lista de platos 
+
+# Lista de platos
 platos_pedidos = []
-for i in range(0,len(matriz_gestion_platos)):
+for i in range(0, len(matriz_gestion_platos)):
     platos_pedidos.append(matriz_gestion_platos[i][0])
-    
+
 # Insertar platos  en el treeview de platos
 for plato in platos_pedidos:
     treeview_platos.insert('', 'end', text=plato, values=(plato))
 
 # Botón para reservar un pedido
-boton_reservar = ttk.Button(agregar_pedidos_frame, text="Reservar Pedido", command=reservar_pedido)
+boton_reservar = ttk.Button(agregar_pedidos_frame,
+                            text="Reservar Pedido", command=reservar_pedido)
 boton_reservar.grid(row=1, column=0, padx=10, pady=5, sticky="news")
 
 # Botón para mostrar pedidos
-boton_mostrar = ttk.Button(agregar_pedidos_frame, text="Mostrar Pedidos", command=mostrar_pedidos)
+boton_mostrar = ttk.Button(agregar_pedidos_frame,
+                           text="Mostrar Pedidos", command=mostrar_pedidos)
 boton_mostrar.grid(row=1, column=1, padx=10, pady=5, sticky="news")
-btn_salir = tk.Button(agregar_pedidos_frame, text="Salir", command = lambda: (agregar_pedidos.withdraw(), menu_screen.deiconify()))
+btn_salir = tk.Button(agregar_pedidos_frame, text="Salir", command=lambda: (
+    agregar_pedidos.withdraw(), menu_screen.deiconify()))
 btn_salir.grid(row=2, column=1, padx=10, pady=5, sticky="news")
 
 # Configurar el tamaño de la ventana (reemplazar __window_size con el tamaño deseado)
