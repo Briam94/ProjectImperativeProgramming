@@ -591,7 +591,6 @@ def registry_user():
                 users_file = open("users.txt", "r")
                 data = users_file.readlines()
                 users_file.close()
-                print(data)
                 try:
                     index = data.index(email+separator)
                 except ValueError:
@@ -603,7 +602,6 @@ def registry_user():
                     password = hashlib.sha256(password.encode())
                     data.append(email + separator)
                     data.append(password.hexdigest() + separator)
-                    print(data)
                     users_file = open("users.txt", "w")
                     users_file.writelines(data)
                     users_file.close()
@@ -628,10 +626,8 @@ def login():
     users_file = open("users.txt", "r")
     data = users_file.readlines()
     users = []
-    print(data)
     for i in data:
         users.append(i.replace('\n', ''))
-    print(users)
     try:
         index = users.index(email)
         if users[index] == email and users[index+1] == password.hexdigest():
