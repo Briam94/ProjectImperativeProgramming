@@ -7,11 +7,14 @@ import random
 
 regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
-__window_size = "450x400+400+200"
+__window_size = "450x400+400+100"
 
-matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], ['arroz', '1300', 'es un arroz', 'no']]
+matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], [
+    'arroz', '1300', 'es un arroz', 'no']]
 lista_pedidos = []
-tables =  [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023', '14:00', '5'),('12', '12/10/1990','14:00','4')] 
+table_management_columns = ('mesa', 'fecha', 'hora', 'n.personas')
+tables = [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023',
+                                              '14:00', '5'), ('12', '12/10/1990', '14:00', '4')]
 # ________________________________________________________________________________________________#
 # Funciones para eliminar platos
 
@@ -19,8 +22,6 @@ tables =  [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023', '14:00', '5'),
 # _____________________________________________________________________________________#
 
 # open and close screen/window
-
-
 
 def close_and_open_screen(window_to_close, window_to_open):
     window_to_close.withdraw()
@@ -30,8 +31,10 @@ def close_and_open_screen(window_to_close, window_to_open):
 def gestion_platos_screen():
     close_and_open_screen(menu_screen, gestion_platos)
 
+
 def agregar_pedidos_screen():
     close_and_open_screen(menu_screen, agregar_pedidos)
+
 
 def registry_screen():
     close_and_open_screen(home_scren, registry_user_screen)
@@ -52,19 +55,38 @@ def cancel_gestion_platos():
 def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
 
+
+def cancel_table_management():
+    close_and_open_screen(table_management_screen, menu_screen)
+
+
+def table_management():
+    close_and_open_screen(menu_screen, table_management_screen)
+
+
+def log_out():
+    close_and_open_screen(menu_screen, home_scren)
+
 # _____________________________________________________________________________________#
+
+# Funciones de gestion de pedidos
+
 
 def reservar_pedido():
     mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
     plato_seleccionado = treeview_platos.item(treeview_platos.focus())['text']
-    
-    numero_pedido = random.randint(1000, 9999)  # Generar un número aleatorio de pedido
+
+    # Generar un número aleatorio de pedido
+    numero_pedido = random.randint(1000, 9999)
     pedido_actual = {
         "ID": numero_pedido,
         "Mesa": mesa_seleccionada,
         "Plato": plato_seleccionado
     }
     lista_pedidos.append(pedido_actual)
+
+# Función para mostrar los pedidos
+
 
 def mostrar_pedidos():
     agregar_pedidos.withdraw()
@@ -79,7 +101,8 @@ def mostrar_pedidos():
             tree.delete(selected_item)
             del lista_pedidos[index]
 
-    tree = ttk.Treeview(pedidos_window, columns=("ID", "Mesa", "Plato"), selectmode="browse")
+    tree = ttk.Treeview(pedidos_window, columns=(
+        "ID", "Mesa", "Plato"), selectmode="browse")
     tree.heading("#0", text="Índice")
     tree.heading("#1", text="ID")
     tree.heading("#2", text="Mesa")
@@ -88,9 +111,10 @@ def mostrar_pedidos():
     tree.column("#1", width=60)
     tree.column("#2", width=60)
     tree.column("#3", width=120)
-    
+
     for i, pedido in enumerate(lista_pedidos):
-        tree.insert("", "end", text=str(i), values=(pedido["ID"], pedido["Mesa"], pedido["Plato"]))
+        tree.insert("", "end", text=str(i), values=(
+            pedido["ID"], pedido["Mesa"], pedido["Plato"]))
 
     tree.pack(padx=20, pady=10)
 
@@ -123,7 +147,7 @@ def actualizar_datos():
         actualizar_platos.title("Data Entry Form")
 
         # Crear los campos de texto y mostrar los valores de la fila seleccionada
-        
+
         etiqueta = tk.Label(actualizar_platos, text="Mi Restaurante",
                             font=("Arial", 18), pady=10)
         etiqueta.pack()
@@ -190,21 +214,24 @@ def actualizar_datos():
         if seleccion:
             tree.item(seleccion, values=(nuevo_nombre, nuevo_precio,
                       nueva_descripcion, nueva_disponibilidad))
-            
+
             actualizar_platos.destroy()
-            
 
         # Agregar el botón de actualizar
     boton_actualizar_platos = tk.Button(frame, text="Actualizar", command=actualizar_fila,
-                                     font=("Arial", 12), pady=10)
+                                        font=("Arial", 12), pady=10)
 
-    boton_actualizar_platos.grid(row=6, column=0, sticky="news", padx=20, pady=5)
+    boton_actualizar_platos.grid(
+        row=6, column=0, sticky="news", padx=20, pady=5)
 
     boton_cancelar = tk.Button(
         frame, text="Cancelar", command=actualizar_platos.destroy, font=("Arial", 12), pady=10)
     boton_cancelar.grid(row=7, column=0, sticky="news", padx=20, pady=5)
 
     actualizar_platos.geometry(__window_size)
+
+# Ingresar datos en la tabla de platos
+
 
 def ingresar_datos():
     agregar_platos = tk.Tk()
@@ -257,6 +284,7 @@ def ingresar_datos():
     descripcion_entry.grid(row=5, column=0)
     disponibilidad_entry.grid(row=5, column=2)
 
+# Función para agregar una fila a la tabla de platos
     def agregar_fila():
 
         nombre = name__entry.get()
@@ -267,20 +295,23 @@ def ingresar_datos():
         if not nombre:
             messagebox.showerror("Error", "El campo nombre es obligatorio")
             return
-        
+
         # Validación del campo precio
         if not precio.isdigit() or int(precio) <= 0:
-            messagebox.showerror("Error", "El campo precio debe ser un número mayor a 0")
+            messagebox.showerror(
+                "Error", "El campo precio debe ser un número mayor a 0")
             return
-        
+
         # Validación del campo descripción
         if len(descripcion) > 100:
-            messagebox.showerror("Error", "El campo descripción no puede tener más de 100 caracteres")
+            messagebox.showerror(
+                "Error", "El campo descripción no puede tener más de 100 caracteres")
             return
-        
+
         # Validación del campo disponibilidad
         if disponibilidad.lower() not in ["si", "no"]:
-            messagebox.showerror("Error", "El campo disponibilidad solo puede ser 'si' o 'no'")
+            messagebox.showerror(
+                "Error", "El campo disponibilidad solo puede ser 'si' o 'no'")
             return
 
         fila = [nombre, precio, descripcion, disponibilidad]
@@ -299,6 +330,8 @@ def ingresar_datos():
 
     agregar_platos.geometry(__window_size)
 
+# Función para cambiar el color de la fila seleccionada
+
 
 def toggle_seleccion(event):
     selected_item = tree.selection()
@@ -310,6 +343,8 @@ def toggle_seleccion(event):
             tags += ("seleccionada",)
         tree.item(item, tags=tags)
 
+# Función para eliminar una fila de la tabla de platos
+
 
 def eliminar_filas_seleccionadas():
     selected_items = tree.selection()
@@ -319,6 +354,8 @@ def eliminar_filas_seleccionadas():
         matriz_gestion_platos.pop(index)
 
     actualizar_tabla()
+
+# Función para actualizar la tabla de platos
 
 
 def actualizar_tabla():
@@ -330,6 +367,230 @@ def actualizar_tabla():
 
 # ____________________________________________________________________________________________________________#
 
+
+# Table management functions
+
+
+def update_data_table():
+    selection = table_management_table.selection()
+    if not selection:
+        messagebox.showinfo("Error", "No se ha seleccionado ninguna fila.")
+        return
+    if selection:
+        # getting values of the selected table
+        values = table_management_table.item(selection)['values']
+
+        update_table = tk.Tk()
+        update_table.title("Actualizar mesa")
+
+        tag = tk.Label(update_table, text="Mi Restaurante",
+                       font=("Arial", 18), pady=10)
+        tag.pack()
+        frame = tk.Frame(update_table)
+        frame.pack()
+
+        update_table_frame = tk.LabelFrame(frame, text="Agregar mesa",
+                                           font=("Arial", 14), pady=10)
+
+        update_table_frame.grid(row=0, column=0, padx=100, pady=10)
+
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=0, column=0)
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=0, column=1)
+
+        table_label = tk.Label(update_table_frame, text="Mesa",
+                               font=("Arial", 12), pady=10)
+        table_label.grid(row=1, column=0)
+        date_label = tk.Label(update_table_frame, text="Fecha",
+                              font=("Arial", 12), pady=10)
+        date_label.grid(row=1, column=2)
+
+        table__entry = tk.Entry(update_table_frame)
+        date_entry = tk.Entry(update_table_frame)
+        table__entry.grid(row=2, column=0)
+        date_entry.grid(row=2, column=2)
+
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=3, column=0)
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=3, column=1)
+
+        time_label = tk.Label(update_table_frame, text="Hora",
+                              font=("Arial", 12), pady=10)
+
+        time_label.grid(row=4, column=0)
+        number_person_label = tk.Label(update_table_frame, text="N. personas",
+                                       font=("Arial", 12), pady=10)
+
+        number_person_label.grid(row=4, column=2)
+
+        time_entry = tk.Entry(
+            update_table_frame)
+        number_person_entry = tk.Entry(
+            update_table_frame)
+        time_entry.grid(row=5, column=0)
+        number_person_entry.grid(row=5, column=2)
+
+        table__entry.insert(0, values[0])
+        date_entry.insert(0, values[1])
+        time_entry.insert(0, values[2])
+        number_person_entry.insert(0, values[3])
+
+    def update_row():
+        # Get new values
+        new_table = table__entry.get()
+        new_date = date_entry.get()
+        new_time = time_entry.get()
+        new_number_person = number_person_entry.get()
+
+        table_status = validate_table(new_table, new_date, new_time)
+
+        # Update values of the table
+        if table_status == True:
+            selection = table_management_table.selection()
+            if selection:
+                table_management_table.item(selection, values=(new_table, new_date,
+                                                               new_time, new_number_person))
+
+                update_table.destroy()
+        else:
+            show_error('Mesa no disponible',
+                       'La mesa seleccionada no se encuentra disponible en la fecha seleccionada')
+
+    update_table_button = tk.Button(frame, text="Actualizar", command=update_row,
+                                    font=("Arial", 12), pady=10)
+
+    update_table_button.grid(
+        row=6, column=0, sticky="news", padx=20, pady=5)
+
+    button_cancel = tk.Button(
+        frame, text="Cancelar", command=update_table.destroy, font=("Arial", 12), pady=10)
+    button_cancel.grid(row=7, column=0, sticky="news", padx=20, pady=5)
+
+    update_table.geometry(__window_size)
+
+
+def validate_table(new_table, date, time):
+    for table in tables:
+        if table[0] == new_table and table[1] == date and table[2] == time:
+            return False
+    return True
+
+
+def regitry_table():
+    regitry_table_screen = tk.Tk()
+    regitry_table_screen.title("Registrar mesas")
+
+    title_regitry_table_screen = tk.Label(regitry_table_screen, text="Mi Restaurante",
+                                          font=("Arial", 18), pady=10)
+    title_regitry_table_screen.pack()
+    frame = tk.Frame(regitry_table_screen)
+    frame.pack()
+
+    regitry_table_screen_frame = tk.LabelFrame(frame, text="Agregar mesas",
+                                               font=("Arial", 14), pady=10)
+
+    regitry_table_screen_frame.grid(row=0, column=0, padx=100, pady=10)
+
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=0, column=0)
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=0, column=1)
+
+    table_label = tk.Label(regitry_table_screen_frame, text="Mesa",
+                           font=("Arial", 12), pady=10)
+    table_label.grid(row=1, column=0)
+    date_label = tk.Label(regitry_table_screen_frame, text="Fecha",
+                          font=("Arial", 12), pady=10)
+    date_label.grid(row=1, column=2)
+
+    table__entry = tk.Entry(regitry_table_screen_frame)
+    date_entry = tk.Entry(regitry_table_screen_frame)
+    table__entry.grid(row=2, column=0)
+    date_entry.grid(row=2, column=2)
+
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=3, column=0)
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=3, column=1)
+
+    time_label = tk.Label(regitry_table_screen_frame, text="Hora",
+                          font=("Arial", 12), pady=10)
+
+    time_label.grid(row=4, column=0)
+    number_person_label = tk.Label(regitry_table_screen_frame, text="N.personas",
+                                   font=("Arial", 12), pady=10)
+
+    number_person_label.grid(row=4, column=2)
+
+    time_entry = tk.Entry(regitry_table_screen_frame)
+    number_person_entry = tk.Entry(regitry_table_screen_frame)
+    time_entry.grid(row=5, column=0)
+    number_person_entry.grid(row=5, column=2)
+
+    def add_new_record():
+        table = table__entry.get()
+        date = date_entry.get()
+        time = time_entry.get()
+        number_person = number_person_entry.get()
+        table_status = validate_table(table, date, time)
+        if table_status == True:
+            if not table or not date or not time or not number_person:
+                return show_error("Error", "Todos los campos som obligatorios")
+
+            new_record = [table, date, time, number_person]
+            tables.append(new_record)
+            update_table()
+            regitry_table_screen.destroy()
+        else:
+            show_error('Mesa no disponible',
+                       'La mesa seleccionada no se encuentra disponible en la fecha seleccionada')
+
+    add_table = tk.Button(frame, text="Agregar", command=add_new_record,
+                          font=("Arial", 12), pady=10)
+
+    add_table.grid(row=6, column=0, sticky="news", padx=20, pady=5)
+
+    boton_cancelar = tk.Button(
+        frame, text="Cancelar", command=regitry_table_screen.destroy, font=("Arial", 12), pady=10)
+    boton_cancelar.grid(row=7, column=0, sticky="news", padx=20, pady=5)
+
+    regitry_table_screen.geometry(__window_size)
+
+
+def toggle_seleccion_table(event):
+    selected_item = table_management_table.selection()
+    table_management_table.tag_configure("seleccionada", foreground='black',
+                                         background='white', font='Arial 10')
+    for item in table_management_table.get_children():
+        tags = table_management_table.item(item, 'tags')
+        if item == selected_item:
+            tags += ("seleccionada",)
+        table_management_table.item(item, tags=tags)
+
+
+def delete_row_seleted_table():
+    selected_items = table_management_table.selection()
+    indices_seleccionados = [table_management_table.index(
+        item) for item in selected_items]
+
+    for index in sorted(indices_seleccionados, reverse=True):
+        tables.pop(index)
+
+    update_table()
+
+
+def update_table():
+    table_management_table.delete(*table_management_table.get_children())
+
+    for i, row in enumerate(tables):
+        table_management_table.insert('', 'end', values=row, tags=(f"row{i}",))
+
+# ____________________________________________________________________________________________________________#
+
+
+# Funtion REGISTRY USER SCREEN
 def registry_user():
     email = email_registry_user_entry.get()
     password = password_registry_user_entry.get()
@@ -340,17 +601,28 @@ def registry_user():
             pat = re.compile(regex_password)
             mat = re.search(pat, password)
             if mat:
-                password = hashlib.sha256(password.encode())
-                users = [email + separator,
-                         password.hexdigest() + separator]
-                users_file = open("users.txt", "w")
-                users_file.writelines(users)
+                users_file = open("users.txt", "r")
+                data = users_file.readlines()
                 users_file.close()
-                show_successful(
-                    "EXITOSO", "el usuario fue guardado exitosamente")
-                email_registry_user_entry.delete(0, tk.END)
-                password_registry_user_entry.delete(0, tk.END)
-                confirm_password_registry_user_entry.delete(0, tk.END)
+                try:
+                    index = data.index(email+separator)
+                except ValueError:
+                    index = -1
+                if index >= 0:
+                    show_error(
+                        'Error', 'Ya existe un usuario registrado con ' + email)
+                else:
+                    password = hashlib.sha256(password.encode())
+                    data.append(email + separator)
+                    data.append(password.hexdigest() + separator)
+                    users_file = open("users.txt", "w")
+                    users_file.writelines(data)
+                    users_file.close()
+                    show_successful(
+                        "EXITOSO", "el usuario fue guardado exitosamente")
+                    email_registry_user_entry.delete(0, tk.END)
+                    password_registry_user_entry.delete(0, tk.END)
+                    confirm_password_registry_user_entry.delete(0, tk.END)
             else:
                 show_error(
                     'Contraseña', 'La contraseña debe contener 1 mayuscula, 1 numero, 1 minuscula, 1 caracter especial y minimo de 10 caracteres')
@@ -360,6 +632,8 @@ def registry_user():
         show_error('Correo invalido',
                    'El correo ingresado no tiene la estructura correcta.')
 
+# Funtion LOGIN SCREEN
+
 
 def login():
     email = email_login_entry.get()
@@ -367,13 +641,13 @@ def login():
     users_file = open("users.txt", "r")
     data = users_file.readlines()
     users = []
-    print(data)
     for i in data:
         users.append(i.replace('\n', ''))
-    print(users)
     try:
         index = users.index(email)
         if users[index] == email and users[index+1] == password.hexdigest():
+            email_login_entry.delete(0, tk.END)
+            password_login_entry.delete(0, tk.END)
             close_and_open_screen(init_sesion_screen, menu_screen)
         else:
             show_error('Usuario incorrecto', 'Usuario y/o correo invalidos')
@@ -387,18 +661,6 @@ def show_error(title_error, text_error):
 
 def show_successful(title, text):
     messagebox.showinfo(title, text)
-
-
-def read_file():
-    email = email_registry_user_entry.get()
-    password = password_registry_user_entry.get()
-    users_file = open("users.txt", "r")
-    data = users_file.readlines()
-    print('data', data)
-    for i in range(0, data.length()):
-        data_into_list = data.replace('\n', ' ')
-    print('data_into_list', data_into_list)
-    users_file.close()
 
 
 # HOME PRINCIPAL
@@ -481,7 +743,6 @@ cancel_registry_user_button.place(x=250, y=280)
 registry_user_screen.geometry(__window_size)
 
 
-
 # LOGIN SCREEN
 init_sesion_screen = tk.Tk()
 init_sesion_screen.title("Iniciar sesion")
@@ -507,7 +768,7 @@ password_login_entry.pack()
 
 # _______________________________________________________________________________________________________________#
 
-# BUTTON
+# BUTTON LOGIN
 login_button = tk.Button(
     init_sesion_screen, text="INICIAR SESION", command=login)
 login_button.pack()
@@ -519,6 +780,7 @@ cancel_login_button.pack()
 # _______________________________________________________________________________________________________________#
 
 # PLACES
+# Ubicacion de los botones en la pantalla de inicio de sesion
 login_button.place(x=120, y=280)
 cancel_login_button.place(x=250, y=280)
 
@@ -540,13 +802,15 @@ user_info_frame = tk.LabelFrame(frame, text="Bienvenido",
                                 font=("Arial", 14), pady=10)
 user_info_frame.grid(row=0, column=0, padx=10, pady=10)
 
+
+# creacion de los botones de la pantalla de menu
 boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos", command=gestion_platos_screen,
                                  font=("Arial", 12), pady=10)
 
 boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
 
 boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
-                                font=("Arial", 12), pady=10)
+                                font=("Arial", 12), pady=10, command=table_management)
 
 boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
@@ -556,7 +820,7 @@ boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
 
 boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión",
-                                font=("Arial", 12), pady=10)
+                                font=("Arial", 12), pady=10, command=log_out)
 
 boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 
@@ -569,7 +833,7 @@ menu_screen.withdraw()
 
 # _______________________________________________________________________________________________________________#
 
-# Crear la ventana principal platos
+# Crear la ventana principal gestion de platos
 gestion_platos = tk.Tk()
 gestion_platos.title("Tabla de Matriz")
 
@@ -606,7 +870,7 @@ tree.bind('<ButtonRelease-1>', toggle_seleccion)
 tree.pack()
 
 
-# Crear el botón de eliminar
+# Crear los botones para agregar, eliminar y actualizar
 boton_agregar_platos = tk.Button(frame, text="Ingresar Datos", command=ingresar_datos,
                                  font=("Arial", 12), pady=0)
 
@@ -636,13 +900,13 @@ gestion_platos.withdraw()
 
 # _______________________________________________________________________________________________________________#
 
-
 # Crear la ventana principal
 agregar_pedidos = tk.Tk()
 agregar_pedidos.title("Data Entry Form")
 
 # Etiqueta para identificar el formulario
-etiqueta = tk.Label(agregar_pedidos, text="Mi Restaurante", font=("Arial", 18), pady=5)
+etiqueta = tk.Label(agregar_pedidos, text="Mi Restaurante",
+                    font=("Arial", 18), pady=5)
 etiqueta.grid(row=0, column=0, columnspan=2)
 
 # Crear un marco para el formulario
@@ -650,7 +914,8 @@ frame = tk.Frame(agregar_pedidos)
 frame.grid(row=1, column=0, columnspan=2)
 
 # Marco para agregar pedidos
-agregar_pedidos_frame = tk.LabelFrame(frame, text="Agregar Pedidos", font=("Arial", 14), pady=10)
+agregar_pedidos_frame = tk.LabelFrame(
+    frame, text="Agregar Pedidos", font=("Arial", 14), pady=10)
 agregar_pedidos_frame.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
 
 # Marco para las mesas
@@ -677,29 +942,32 @@ treeview_platos.pack()
 
 # Insertar mesas ficticias en el treeview de mesas
 mesas_pedidos = []
-for i in range(0,len(tables)):
+for i in range(0, len(tables)):
     mesas_pedidos.append(tables[i][0])
 
 for mesa in mesas_pedidos:
     treeview_mesas.insert('', 'end', text=mesa, values=("Mesa " + mesa))
- 
-# Lista de platos 
+
+# Lista de platos
 platos_pedidos = []
-for i in range(0,len(matriz_gestion_platos)):
+for i in range(0, len(matriz_gestion_platos)):
     platos_pedidos.append(matriz_gestion_platos[i][0])
-    
+
 # Insertar platos  en el treeview de platos
 for plato in platos_pedidos:
     treeview_platos.insert('', 'end', text=plato, values=(plato))
 
 # Botón para reservar un pedido
-boton_reservar = ttk.Button(agregar_pedidos_frame, text="Reservar Pedido", command=reservar_pedido)
+boton_reservar = ttk.Button(agregar_pedidos_frame,
+                            text="Reservar Pedido", command=reservar_pedido)
 boton_reservar.grid(row=1, column=0, padx=10, pady=5, sticky="news")
 
 # Botón para mostrar pedidos
-boton_mostrar = ttk.Button(agregar_pedidos_frame, text="Mostrar Pedidos", command=mostrar_pedidos)
+boton_mostrar = ttk.Button(agregar_pedidos_frame,
+                           text="Mostrar Pedidos", command=mostrar_pedidos)
 boton_mostrar.grid(row=1, column=1, padx=10, pady=5, sticky="news")
-btn_salir = tk.Button(agregar_pedidos_frame, text="Salir", command = lambda: (agregar_pedidos.withdraw(), menu_screen.deiconify()))
+btn_salir = tk.Button(agregar_pedidos_frame, text="Salir", command=lambda: (
+    agregar_pedidos.withdraw(), menu_screen.deiconify()))
 btn_salir.grid(row=2, column=1, padx=10, pady=5, sticky="news")
 
 # Configurar el tamaño de la ventana (reemplazar __window_size con el tamaño deseado)
@@ -710,6 +978,63 @@ agregar_pedidos.withdraw()
 # Iniciar el bucle principal de la aplicación
 # Natalia0506*
 # _______________________________________________________________________________________________________________#
+
+
+# table management
+table_management_screen = tk.Tk()
+table_management_screen.title("Gestion de mesas")
+
+etiqueta = tk.Label(table_management_screen, text="Mi Restaurante",
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+
+table_management_frame = tk.Frame(table_management_screen)
+table_management_frame.pack()
+
+agregar_platos_frame = tk.LabelFrame(table_management_frame, text="Lista de mesas",
+                                     font=("Arial", 14), padx=50, pady=50)
+
+agregar_platos_frame.grid(row=0, column=0, padx=100, pady=10)
+
+
+# table_to_show
+table_management_table = ttk.Treeview(
+    agregar_platos_frame, columns=table_management_columns, show="headings")
+table_management_table.heading("mesa", text="Mesa")
+table_management_table.heading("fecha", text="Fecha")
+table_management_table.heading("hora", text="Hora")
+table_management_table.heading("n.personas", text="N.personas")
+
+table_management_table.bind('<ButtonRelease-1>', toggle_seleccion_table)
+
+table_management_table.pack()
+
+# buttons
+add_tables_button = tk.Button(table_management_frame, text="Registrar mesa", command=regitry_table,
+                              font=("Arial", 12), pady=0)
+
+add_tables_button.grid(row=6, column=0, sticky="nsew",  padx=10, pady=10)
+
+
+delete_tables_button = tk.Button(table_management_frame, text="Eliminar",  command=delete_row_seleted_table,
+                                 font=("Arial", 12), pady=0)
+
+delete_tables_button.grid(row=7, column=0, sticky="nsew",  padx=10, pady=10)
+
+update_tables_button = tk.Button(table_management_frame, text="Actualizar", command=update_data_table,
+                                 font=("Arial", 12), pady=0)
+
+update_tables_button.grid(row=8, column=0, sticky="nsew",  padx=10, pady=10)
+
+cancel_tables_button = tk.Button(table_management_frame, text="Cancelar", command=cancel_table_management,
+                                 font=("Arial", 12), pady=0)
+cancel_tables_button.grid(row=9, column=0, sticky="nsew", padx=10, pady=10)
+
+update_table()
+
+table_management_screen.withdraw()
+
+
 home_scren.mainloop()
 registry_user_screen.mainloop()
 menu_screen.mainloop()
@@ -718,3 +1043,5 @@ gestion_platos.mainloop()
 agregar_platos_frame.mainloop()
 boton_gestion_pedidos.mainloop()
 agregar_pedidos_frame.mainloop()
+table_management_screen.mainloop()
+table_management_frame.mainloop()
