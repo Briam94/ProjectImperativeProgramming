@@ -7,11 +7,12 @@ import random
 
 regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
-__window_size = "450x400+400+200"
+__window_size = "450x400+400+100"
 
 matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], [
     'arroz', '1300', 'es un arroz', 'no']]
 lista_pedidos = []
+table_management_columns = ('mesa', 'fecha', 'hora', 'n.personas')
 tables = [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023',
                                               '14:00', '5'), ('12', '12/10/1990', '14:00', '4')]
 # ________________________________________________________________________________________________#
@@ -54,6 +55,18 @@ def cancel_gestion_platos():
 
 def cancel_login():
     close_and_open_screen(init_sesion_screen, home_scren)
+
+
+def cancel_table_management():
+    close_and_open_screen(table_management_screen, menu_screen)
+
+
+def table_management():
+    close_and_open_screen(menu_screen, table_management_screen)
+
+
+def log_out():
+    close_and_open_screen(menu_screen, home_scren)
 
 # _____________________________________________________________________________________#
 
@@ -342,6 +355,213 @@ def actualizar_tabla():
 
 # ____________________________________________________________________________________________________________#
 
+
+# Table management functions
+
+
+def update_data_table():
+    selection = table_management_table.selection()
+    if not selection:
+        messagebox.showinfo("Error", "No se ha seleccionado ninguna fila.")
+        return
+    if selection:
+        # getting values of the selected table
+        values = table_management_table.item(selection)['values']
+
+        update_table = tk.Tk()
+        update_table.title("Actualizar mesa")
+
+        tag = tk.Label(update_table, text="Mi Restaurante",
+                       font=("Arial", 18), pady=10)
+        tag.pack()
+        frame = tk.Frame(update_table)
+        frame.pack()
+
+        update_table_frame = tk.LabelFrame(frame, text="Agregar mesa",
+                                           font=("Arial", 14), pady=10)
+
+        update_table_frame.grid(row=0, column=0, padx=100, pady=10)
+
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=0, column=0)
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=0, column=1)
+
+        table_label = tk.Label(update_table_frame, text="Mesa",
+                               font=("Arial", 12), pady=10)
+        table_label.grid(row=1, column=0)
+        date_label = tk.Label(update_table_frame, text="Fecha",
+                              font=("Arial", 12), pady=10)
+        date_label.grid(row=1, column=2)
+
+        table__entry = tk.Entry(update_table_frame)
+        date_entry = tk.Entry(update_table_frame)
+        table__entry.grid(row=2, column=0)
+        date_entry.grid(row=2, column=2)
+
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=3, column=0)
+        label_space = tk.Label(update_table_frame, text="")
+        label_space.grid(row=3, column=1)
+
+        time_label = tk.Label(update_table_frame, text="Hora",
+                              font=("Arial", 12), pady=10)
+
+        time_label.grid(row=4, column=0)
+        number_person_label = tk.Label(update_table_frame, text="N. personas",
+                                       font=("Arial", 12), pady=10)
+
+        number_person_label.grid(row=4, column=2)
+
+        time_entry = tk.Entry(
+            update_table_frame)
+        number_person_entry = tk.Entry(
+            update_table_frame)
+        time_entry.grid(row=5, column=0)
+        number_person_entry.grid(row=5, column=2)
+
+        table__entry.insert(0, values[0])
+        date_entry.insert(0, values[1])
+        time_entry.insert(0, values[2])
+        number_person_entry.insert(0, values[3])
+
+    def update_row():
+        # Get new values
+        new_table = table__entry.get()
+        new_date = date_entry.get()
+        new_time = time_entry.get()
+        new_number_person = number_person_entry.get()
+        print(new_table, new_date, new_time, new_number_person)
+
+    # Update values of the table
+        selection = table_management_table.selection()
+        if selection:
+            table_management_table.item(selection, values=(new_table, new_date,
+                                                           new_time, new_number_person))
+
+            update_table.destroy()
+
+    update_table_button = tk.Button(frame, text="Actualizar", command=update_row,
+                                    font=("Arial", 12), pady=10)
+
+    update_table_button.grid(
+        row=6, column=0, sticky="news", padx=20, pady=5)
+
+    button_cancel = tk.Button(
+        frame, text="Cancelar", command=update_table.destroy, font=("Arial", 12), pady=10)
+    button_cancel.grid(row=7, column=0, sticky="news", padx=20, pady=5)
+
+    update_table.geometry(__window_size)
+
+
+def regitry_table():
+    regitry_table_screen = tk.Tk()
+    regitry_table_screen.title("Registrar mesas")
+
+    title_regitry_table_screen = tk.Label(regitry_table_screen, text="Mi Restaurante",
+                                          font=("Arial", 18), pady=10)
+    title_regitry_table_screen.pack()
+    frame = tk.Frame(regitry_table_screen)
+    frame.pack()
+
+    regitry_table_screen_frame = tk.LabelFrame(frame, text="Agregar mesas",
+                                               font=("Arial", 14), pady=10)
+
+    regitry_table_screen_frame.grid(row=0, column=0, padx=100, pady=10)
+
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=0, column=0)
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=0, column=1)
+
+    table_label = tk.Label(regitry_table_screen_frame, text="Mesa",
+                           font=("Arial", 12), pady=10)
+    table_label.grid(row=1, column=0)
+    date_label = tk.Label(regitry_table_screen_frame, text="Fecha",
+                          font=("Arial", 12), pady=10)
+    date_label.grid(row=1, column=2)
+
+    table__entry = tk.Entry(regitry_table_screen_frame)
+    date_entry = tk.Entry(regitry_table_screen_frame)
+    table__entry.grid(row=2, column=0)
+    date_entry.grid(row=2, column=2)
+
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=3, column=0)
+    label_space = tk.Label(regitry_table_screen_frame, text="")
+    label_space.grid(row=3, column=1)
+
+    time_label = tk.Label(regitry_table_screen_frame, text="Hora",
+                          font=("Arial", 12), pady=10)
+
+    time_label.grid(row=4, column=0)
+    number_person_label = tk.Label(regitry_table_screen_frame, text="N.personas",
+                                   font=("Arial", 12), pady=10)
+
+    number_person_label.grid(row=4, column=2)
+
+    time_entry = tk.Entry(regitry_table_screen_frame)
+    number_person_entry = tk.Entry(regitry_table_screen_frame)
+    time_entry.grid(row=5, column=0)
+    number_person_entry.grid(row=5, column=2)
+
+    def add_new_record():
+        table = table__entry.get()
+        date = date_entry.get()
+        time = time_entry.get()
+        number_person = number_person_entry.get()
+
+        if not table or not date or not time or not number_person:
+            return show_error("Error", "Todos los campos som obligatorios")
+
+        new_record = [table, date, time, number_person]
+        tables.append(new_record)
+        update_table()
+        regitry_table_screen.destroy()
+
+    add_table = tk.Button(frame, text="Agregar", command=add_new_record,
+                          font=("Arial", 12), pady=10)
+
+    add_table.grid(row=6, column=0, sticky="news", padx=20, pady=5)
+
+    boton_cancelar = tk.Button(
+        frame, text="Cancelar", command=regitry_table_screen.destroy, font=("Arial", 12), pady=10)
+    boton_cancelar.grid(row=7, column=0, sticky="news", padx=20, pady=5)
+
+    regitry_table_screen.geometry(__window_size)
+
+
+def toggle_seleccion_table(event):
+    selected_item = table_management_table.selection()
+    table_management_table.tag_configure("seleccionada", foreground='black',
+                                         background='white', font='Arial 10')
+    for item in table_management_table.get_children():
+        tags = table_management_table.item(item, 'tags')
+        if item == selected_item:
+            tags += ("seleccionada",)
+        table_management_table.item(item, tags=tags)
+
+
+def delete_row_seleted_table():
+    selected_items = table_management_table.selection()
+    indices_seleccionados = [table_management_table.index(
+        item) for item in selected_items]
+
+    for index in sorted(indices_seleccionados, reverse=True):
+        tables.pop(index)
+
+    update_table()
+
+
+def update_table():
+    table_management_table.delete(*table_management_table.get_children())
+
+    for i, row in enumerate(tables):
+        table_management_table.insert('', 'end', values=row, tags=(f"row{i}",))
+
+# ____________________________________________________________________________________________________________#
+
+
 def registry_user():
     email = email_registry_user_entry.get()
     password = password_registry_user_entry.get()
@@ -399,6 +619,8 @@ def login():
     try:
         index = users.index(email)
         if users[index] == email and users[index+1] == password.hexdigest():
+            email_login_entry.delete(0, tk.END)
+            password_login_entry.delete(0, tk.END)
             close_and_open_screen(init_sesion_screen, menu_screen)
         else:
             show_error('Usuario incorrecto', 'Usuario y/o correo invalidos')
@@ -412,18 +634,6 @@ def show_error(title_error, text_error):
 
 def show_successful(title, text):
     messagebox.showinfo(title, text)
-
-
-def read_file():
-    email = email_registry_user_entry.get()
-    password = password_registry_user_entry.get()
-    users_file = open("users.txt", "r")
-    data = users_file.readlines()
-    print('data', data)
-    for i in range(0, data.length()):
-        data_into_list = data.replace('\n', ' ')
-    print('data_into_list', data_into_list)
-    users_file.close()
 
 
 # HOME PRINCIPAL
@@ -570,7 +780,7 @@ boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos", comman
 boton_gestion_platos.grid(row=1, column=0, sticky="news", padx=100, pady=10)
 
 boton_gestion_mesas = tk.Button(user_info_frame, text="Gestión mesas",
-                                font=("Arial", 12), pady=10)
+                                font=("Arial", 12), pady=10, command=table_management)
 
 boton_gestion_mesas.grid(row=2, column=0, sticky="news", padx=100, pady=10)
 
@@ -580,7 +790,7 @@ boton_gestion_pedidos = tk.Button(user_info_frame, text="Gestión pedidos",
 boton_gestion_pedidos.grid(row=3, column=0, sticky="news", padx=100, pady=10)
 
 boton_cerrar_sesion = tk.Button(user_info_frame, text="Cerrar sesión",
-                                font=("Arial", 12), pady=10)
+                                font=("Arial", 12), pady=10, command=log_out)
 
 boton_cerrar_sesion.grid(row=4, column=0, sticky="news", padx=100, pady=10)
 
@@ -734,6 +944,63 @@ agregar_pedidos.withdraw()
 # Iniciar el bucle principal de la aplicación
 # Natalia0506*
 # _______________________________________________________________________________________________________________#
+
+
+# table management
+table_management_screen = tk.Tk()
+table_management_screen.title("Gestion de mesas")
+
+etiqueta = tk.Label(table_management_screen, text="Mi Restaurante",
+                    font=("Arial", 18), pady=10)
+etiqueta.pack()
+
+table_management_frame = tk.Frame(table_management_screen)
+table_management_frame.pack()
+
+agregar_platos_frame = tk.LabelFrame(table_management_frame, text="Lista de mesas",
+                                     font=("Arial", 14), padx=50, pady=50)
+
+agregar_platos_frame.grid(row=0, column=0, padx=100, pady=10)
+
+
+# table_to_show
+table_management_table = ttk.Treeview(
+    agregar_platos_frame, columns=table_management_columns, show="headings")
+table_management_table.heading("mesa", text="Mesa")
+table_management_table.heading("fecha", text="Fecha")
+table_management_table.heading("hora", text="Hora")
+table_management_table.heading("n.personas", text="N.personas")
+
+table_management_table.bind('<ButtonRelease-1>', toggle_seleccion_table)
+
+table_management_table.pack()
+
+# buttons
+add_tables_button = tk.Button(table_management_frame, text="Registrar mesa", command=regitry_table,
+                              font=("Arial", 12), pady=0)
+
+add_tables_button.grid(row=6, column=0, sticky="nsew",  padx=10, pady=10)
+
+
+delete_tables_button = tk.Button(table_management_frame, text="Eliminar",  command=delete_row_seleted_table,
+                                 font=("Arial", 12), pady=0)
+
+delete_tables_button.grid(row=7, column=0, sticky="nsew",  padx=10, pady=10)
+
+update_tables_button = tk.Button(table_management_frame, text="Actualizar", command=update_data_table,
+                                 font=("Arial", 12), pady=0)
+
+update_tables_button.grid(row=8, column=0, sticky="nsew",  padx=10, pady=10)
+
+cancel_tables_button = tk.Button(table_management_frame, text="Cancelar", command=cancel_table_management,
+                                 font=("Arial", 12), pady=0)
+cancel_tables_button.grid(row=9, column=0, sticky="nsew", padx=10, pady=10)
+
+update_table()
+
+table_management_screen.withdraw()
+
+
 home_scren.mainloop()
 registry_user_screen.mainloop()
 menu_screen.mainloop()
@@ -742,3 +1009,5 @@ gestion_platos.mainloop()
 agregar_platos_frame.mainloop()
 boton_gestion_pedidos.mainloop()
 agregar_pedidos_frame.mainloop()
+table_management_screen.mainloop()
+table_management_frame.mainloop()
