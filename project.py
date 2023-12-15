@@ -23,7 +23,6 @@ tables = [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023',
 
 # open and close screen/window
 
-
 def close_and_open_screen(window_to_close, window_to_open):
     window_to_close.withdraw()
     window_to_open.deiconify()
@@ -70,6 +69,8 @@ def log_out():
 
 # _____________________________________________________________________________________#
 
+# Funciones de gestion de pedidos
+
 
 def reservar_pedido():
     mesa_seleccionada = treeview_mesas.item(treeview_mesas.focus())['text']
@@ -83,6 +84,8 @@ def reservar_pedido():
         "Plato": plato_seleccionado
     }
     lista_pedidos.append(pedido_actual)
+
+# Función para mostrar los pedidos
 
 
 def mostrar_pedidos():
@@ -227,6 +230,8 @@ def actualizar_datos():
 
     actualizar_platos.geometry(__window_size)
 
+# Ingresar datos en la tabla de platos
+
 
 def ingresar_datos():
     agregar_platos = tk.Tk()
@@ -279,6 +284,7 @@ def ingresar_datos():
     descripcion_entry.grid(row=5, column=0)
     disponibilidad_entry.grid(row=5, column=2)
 
+# Función para agregar una fila a la tabla de platos
     def agregar_fila():
 
         nombre = name__entry.get()
@@ -324,6 +330,8 @@ def ingresar_datos():
 
     agregar_platos.geometry(__window_size)
 
+# Función para cambiar el color de la fila seleccionada
+
 
 def toggle_seleccion(event):
     selected_item = tree.selection()
@@ -335,6 +343,8 @@ def toggle_seleccion(event):
             tags += ("seleccionada",)
         tree.item(item, tags=tags)
 
+# Función para eliminar una fila de la tabla de platos
+
 
 def eliminar_filas_seleccionadas():
     selected_items = tree.selection()
@@ -344,6 +354,8 @@ def eliminar_filas_seleccionadas():
         matriz_gestion_platos.pop(index)
 
     actualizar_tabla()
+
+# Función para actualizar la tabla de platos
 
 
 def actualizar_tabla():
@@ -578,6 +590,7 @@ def update_table():
 # ____________________________________________________________________________________________________________#
 
 
+# Funtion REGISTRY USER SCREEN
 def registry_user():
     email = email_registry_user_entry.get()
     password = password_registry_user_entry.get()
@@ -618,6 +631,8 @@ def registry_user():
     else:
         show_error('Correo invalido',
                    'El correo ingresado no tiene la estructura correcta.')
+
+# Funtion LOGIN SCREEN
 
 
 def login():
@@ -753,7 +768,7 @@ password_login_entry.pack()
 
 # _______________________________________________________________________________________________________________#
 
-# BUTTON
+# BUTTON LOGIN
 login_button = tk.Button(
     init_sesion_screen, text="INICIAR SESION", command=login)
 login_button.pack()
@@ -765,6 +780,7 @@ cancel_login_button.pack()
 # _______________________________________________________________________________________________________________#
 
 # PLACES
+# Ubicacion de los botones en la pantalla de inicio de sesion
 login_button.place(x=120, y=280)
 cancel_login_button.place(x=250, y=280)
 
@@ -786,6 +802,8 @@ user_info_frame = tk.LabelFrame(frame, text="Bienvenido",
                                 font=("Arial", 14), pady=10)
 user_info_frame.grid(row=0, column=0, padx=10, pady=10)
 
+
+# creacion de los botones de la pantalla de menu
 boton_gestion_platos = tk.Button(user_info_frame, text="Gestión platos", command=gestion_platos_screen,
                                  font=("Arial", 12), pady=10)
 
@@ -815,7 +833,7 @@ menu_screen.withdraw()
 
 # _______________________________________________________________________________________________________________#
 
-# Crear la ventana principal platos
+# Crear la ventana principal gestion de platos
 gestion_platos = tk.Tk()
 gestion_platos.title("Tabla de Matriz")
 
@@ -852,7 +870,7 @@ tree.bind('<ButtonRelease-1>', toggle_seleccion)
 tree.pack()
 
 
-# Crear el botón de eliminar
+# Crear los botones para agregar, eliminar y actualizar
 boton_agregar_platos = tk.Button(frame, text="Ingresar Datos", command=ingresar_datos,
                                  font=("Arial", 12), pady=0)
 
