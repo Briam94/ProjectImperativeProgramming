@@ -431,15 +431,20 @@ def update_data_table():
         new_date = date_entry.get()
         new_time = time_entry.get()
         new_number_person = number_person_entry.get()
-        print(new_table, new_date, new_time, new_number_person)
 
-    # Update values of the table
-        selection = table_management_table.selection()
-        if selection:
-            table_management_table.item(selection, values=(new_table, new_date,
-                                                           new_time, new_number_person))
+        table_status = validate_table(new_table, new_date, new_time)
 
-            update_table.destroy()
+        # Update values of the table
+        if table_status == True:
+            selection = table_management_table.selection()
+            if selection:
+                table_management_table.item(selection, values=(new_table, new_date,
+                                                               new_time, new_number_person))
+
+                update_table.destroy()
+        else:
+            show_error('Mesa no disponible',
+                       'La mesa seleccionada no se encuentra disponible en la fecha seleccionada')
 
     update_table_button = tk.Button(frame, text="Actualizar", command=update_row,
                                     font=("Arial", 12), pady=10)
@@ -452,6 +457,13 @@ def update_data_table():
     button_cancel.grid(row=7, column=0, sticky="news", padx=20, pady=5)
 
     update_table.geometry(__window_size)
+
+
+def validate_table(new_table, date, time):
+    for table in tables:
+        if table[0] == new_table and table[1] == date and table[2] == time:
+            return False
+    return True
 
 
 def regitry_table():
@@ -510,14 +522,18 @@ def regitry_table():
         date = date_entry.get()
         time = time_entry.get()
         number_person = number_person_entry.get()
+        table_status = validate_table(table, date, time)
+        if table_status == True:
+            if not table or not date or not time or not number_person:
+                return show_error("Error", "Todos los campos som obligatorios")
 
-        if not table or not date or not time or not number_person:
-            return show_error("Error", "Todos los campos som obligatorios")
-
-        new_record = [table, date, time, number_person]
-        tables.append(new_record)
-        update_table()
-        regitry_table_screen.destroy()
+            new_record = [table, date, time, number_person]
+            tables.append(new_record)
+            update_table()
+            regitry_table_screen.destroy()
+        else:
+            show_error('Mesa no disponible',
+                       'La mesa seleccionada no se encuentra disponible en la fecha seleccionada')
 
     add_table = tk.Button(frame, text="Agregar", command=add_new_record,
                           font=("Arial", 12), pady=10)
