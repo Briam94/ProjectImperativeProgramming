@@ -5,9 +5,9 @@ from tkinter import messagebox
 import hashlib
 import random
 
+__window_size = "450x400+400+100"
 regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 regex_password = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{10,20}$"
-__window_size = "450x400+400+100"
 
 matriz_gestion_platos = [['caldo', '5000', 'es un caldo', 'si'], [
     'arroz', '1300', 'es un arroz', 'no']]
@@ -15,13 +15,7 @@ lista_pedidos = []
 table_management_columns = ('mesa', 'fecha', 'hora', 'n.personas')
 tables = [('1', '20/10/2023', '10:00', '4'), ('2', '20/10/2023',
                                               '14:00', '5'), ('12', '12/10/1990', '14:00', '4')]
-# ________________________________________________________________________________________________#
-# Funciones para eliminar platos
 
-
-# _____________________________________________________________________________________#
-
-# open and close screen/window
 
 def close_and_open_screen(window_to_close, window_to_open):
     window_to_close.withdraw()
@@ -895,6 +889,10 @@ actualizar_tabla()
 
 gestion_platos.withdraw()
 
+# _______________________________________________________________________________________________________________#
+
+
+# _______________________________________________________________________________________________________________#
 
 # Crear la ventana principal
 agregar_pedidos = tk.Tk()
@@ -1031,13 +1029,15 @@ update_table()
 table_management_screen.withdraw()
 
 
-home_scren.mainloop()
-registry_user_screen.mainloop()
-menu_screen.mainloop()
-init_sesion_screen.mainloop()
-gestion_platos.mainloop()
-agregar_platos_frame.mainloop()
-boton_gestion_pedidos.mainloop()
-agregar_pedidos_frame.mainloop()
-table_management_screen.mainloop()
-table_management_frame.mainloop()
+if __name__ == '__main__':
+
+    home_scren.mainloop()
+    registry_user_screen.mainloop()
+    menu_screen.mainloop()
+    init_sesion_screen.mainloop()
+    gestion_platos.mainloop()
+    agregar_platos_frame.mainloop()
+    boton_gestion_pedidos.mainloop()
+    agregar_pedidos_frame.mainloop()
+    table_management_screen.mainloop()
+    table_management_frame.mainloop()
